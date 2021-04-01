@@ -1,0 +1,242 @@
+﻿<Window x:Class="DCO_Player.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DCO_Player"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1366" WindowStyle="None" AllowsTransparency="True">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="30"/>
+    </WindowChrome.WindowChrome>
+    <Window.CommandBindings>
+        <CommandBinding Command="SystemCommands.MinimizeWindowCommand" Executed="MinimizeWindow_Executed" />
+        <CommandBinding Command="SystemCommands.MaximizeWindowCommand" Executed="MaximizeWindow_Executed" />
+        <CommandBinding Command="SystemCommands.CloseWindowCommand" Executed="CloseWindow_Executed" />
+    </Window.CommandBindings>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonMenuOpen">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonMenuClose">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Border>
+        <!--BorderBrush="Black" BorderThickness="2"-->
+        <DockPanel Background="#FF191919" >
+            <Grid DockPanel.Dock="Top" Height="30" Background="#000000">
+                <Grid Height="30" VerticalAlignment="Center" HorizontalAlignment="Left" Width="47">
+                    <Image Margin="0,1">
+                        <Image.Source>
+                            <DrawingImage x:Name="LogoDrawingImage">
+                                <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V28 H28 V0 H0 Z">
+                                        <GeometryDrawing Geometry="F1 M28,28z M0,0z M14.15,7.2C13.5,7.19 12.98,6.66 12.98,6.01 12.99,5.36 13.53,4.84 14.17,4.85 16.69,4.88 18.97,5.92 20.61,7.59 22.25,9.25 23.26,11.54 23.26,14.05 23.26,14.7 22.73,15.23 22.08,15.23 21.43,15.23 20.9,14.7 20.9,14.05 20.9,12.18 20.15,10.47 18.93,9.23999 17.71,7.99999 16.02,7.22 14.15,7.2z M13.91,20.92C14.56,20.92 15.09,21.45 15.09,22.1 15.09,22.75 14.56,23.28 13.91,23.28 11.37,23.28 9.06003,22.25 7.40003,20.58 5.73003,18.92 4.70003,16.61 4.70003,14.07 4.70003,13.42 5.23003,12.89 5.88003,12.89 6.53003,12.89 7.06003,13.42 7.06003,14.07 7.06003,15.96 7.83003,17.68 9.07003,18.91 10.3,20.15 12.02,20.92 13.91,20.92z M7.02003,10.27C7.01003,10.92 6.48003,11.45 5.83003,11.44 5.18003,11.44 4.66003,10.91 4.66003,10.26L4.70003,6.01C4.71003,5.36 5.24003,4.84 5.89003,4.85 6.54003,4.85 7.06003,5.38 7.06003,6.03L7.02003,10.27z M11.01,10.27C11.01,10.92 10.48,11.45 9.83003,11.44 9.18003,11.44 8.66003,10.91 8.66003,10.26L8.70003,6.01C8.70003,5.36 9.24003,4.84 9.89003,4.85 10.54,4.85 11.06,5.38 11.05,6.03L11.01,10.27z M8.70003,14.14C8.70003,13.49 9.22003,12.96 9.88003,12.96 10.53,12.96 11.06,13.49 11.06,14.14 11.06,14.96 11.39,15.7 11.93,16.24 12.2,16.51 12.51,16.72 12.86,16.87L12.89,9.81C12.89,9.16 13.42,8.63 14.07,8.63 15.54,8.63 16.88,9.22999 17.85,10.19 18.81,11.16 19.41,12.49 19.41,13.96 19.41,14.62 18.88,15.15 18.23,15.15 17.58,15.15 17.05,14.62 17.05,13.96 17.05,13.14 16.71,12.4 16.18,11.86 15.91,11.6 15.59,11.38 15.24,11.23L15.21,18.29C15.21,18.95 14.69,19.47 14.03,19.47 12.56,19.47 11.22,18.88 10.26,17.91 9.29003,16.95 8.70003,15.61 8.70003,14.14z M17.05,22.02L17.1,17.52C17.1,16.87 17.63,16.35 18.28,16.36 18.5,16.36 18.71,16.42 18.89,16.53L22.78,18.92C23.34,19.26 23.51,19.99 23.17,20.54 23.05,20.74 22.88,20.89 22.68,20.99L18.8,23.13C18.23,23.45 17.51,23.24 17.2,22.67 17.08,22.46 17.04,22.24 17.05,22.02z">
+                                            <GeometryDrawing.Brush>
+                                                <LinearGradientBrush StartPoint="7.86003,21.01" EndPoint="20.15,7.12" MappingMode="Absolute" SpreadMethod="Pad" Opacity="1">
+                                                    <GradientStop Color="#FFD43F2F" Offset="0" />
+                                                    <GradientStop Color="#FFB84178" Offset="0.360784" />
+                                                    <GradientStop Color="#FF9C44C2" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </GeometryDrawing.Brush>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingImage.Drawing>
+                            </DrawingImage>
+                        </Image.Source>
+                    </Image>
+                </Grid>
+                <StackPanel Height="30" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource CollapseButton}" Width="40" Name="Collapse" Command="SystemCommands.MinimizeWindowCommand" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" BorderThickness="0"/>
+                    <Button Style="{StaticResource ScaleButton}" Width="40" Name="Scale" Command="SystemCommands.MaximizeWindowCommand" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="0"/>
+                    <Button Style="{StaticResource CloseButton}"  Width="40"  Name="Close" Command="SystemCommands.CloseWindowCommand" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" BorderThickness="0"/>
+                </StackPanel>
+            </Grid>
+            <Grid Width="auto" DockPanel.Dock="Bottom" Height="50" Background="Black">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="331"></ColumnDefinition>
+                    <ColumnDefinition Width="14"></ColumnDefinition>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="14"></ColumnDefinition>
+                    <ColumnDefinition Width="757*"></ColumnDefinition>
+                    <ColumnDefinition Width="190*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="50,6,0,6" Orientation="Vertical" VerticalAlignment="Center" Height="38">
+                    <TextBlock x:Name="CompositionName" Foreground="#F0F0F0" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+                    <TextBlock x:Name="ArtistName" Foreground="#C2C2C2" FontFamily="Calibri" FontSize="14"/>
+                </StackPanel>
+                <Button Style="{StaticResource Prev}" Grid.Column="1" x:Name="End"/>
+                <Button Grid.Column="2" x:Name="Start" Style="{StaticResource StartButtonLite}"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}"  Click="Play_Click" Margin="21,12,20,13" />
+                <Button Grid.Column="2"  x:Name="Stop" Visibility="Collapsed" Style="{StaticResource StopButtonLite}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}"  Click="Stop_Click" Margin="20,12,20,13"  />
+                <Button Style="{StaticResource Next}" Grid.Column="3" HorizontalAlignment="Right" x:Name="Next" />
+                <Slider Grid.Column="4" x:Name="TimeLine" IsMoveToPointEnabled="True"  Style="{StaticResource Horizontal_Slider}" TickFrequency="1" Foreground="{x:Null}"  Maximum="646" Value="0" Orientation="Horizontal" ValueChanged="TimeLine_ValueChanged" HorizontalAlignment="Center" Width="646" Margin="67,14.5,44,14.5"/>
+                <Border Grid.Column="4" Margin="27,0,0,18" BorderBrush="#616161" BorderThickness="1" CornerRadius="3" Width="33" Height="14" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <Label x:Name="start" FontFamily="Century Gothic" FontSize="10" FontWeight="Bold" Padding="3,0"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#7E7E7E" >00:00</Label>
+                </Border>
+                <Border Grid.Column="4" Margin="0,0,4,18" BorderBrush="#616161" BorderThickness="1" CornerRadius="3" Width="33" Height="14" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <Label x:Name="end" FontFamily="Century Gothic" FontSize="10" FontWeight="Bold" Padding="3,0"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#7E7E7E" >00:00</Label>
+                </Border>
+            </Grid>
+
+            <Grid x:Name="GridMenu" DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left" Background="#242424">
+                <Button x:Name="ButtonMenuOpen" VerticalAlignment="Top" Margin="0,6,6,0" Visibility="Collapsed" HorizontalAlignment="Right" Style="{StaticResource OpenMenuButton}"  BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" BorderThickness="0"  Click="OpenMenu_Click" Height="26" Width="34"/>
+                <Button x:Name="ButtonMenuClose" VerticalAlignment="Top" Margin="0,6,6,0" HorizontalAlignment="Right" Style="{StaticResource CloseMenuButton}" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" BorderThickness="0" Click="CloseMenu_Click"/>
+                <StackPanel x:Name="Menu" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="14,0,0,0">
+                    <StackPanel Orientation="Horizontal" Height="46" Margin="0, 43, 0, 0">
+                        <Ellipse Width="38" Height="38" MouseDown="Ellipse_MouseDown">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="/Images/Profile/Profile.png" x:Name="AccountImage"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBox x:Name="AccountName" Margin="12,0,0,0" IsReadOnly="True" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="18" Width="221" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" FontWeight="regular"/>
+                    </StackPanel>
+                    <StackPanel x:Name="search" Orientation="Horizontal" Margin="0, 30, 0, 0">
+                        <StackPanel>
+                            <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">SEARCH</Label>
+                            <TextBox x:Name="SearchContent" Style="{StaticResource Search}" MaxLength="45" CaretBrush="#AFAFAF" Foreground="#AFAFAF" Width="238" Height="31" FontFamily="Calibri" FontSize="14"/>
+                        </StackPanel>
+                        <Button VerticalAlignment="Bottom"  Style="{StaticResource SearchButton}" Width="30" Height="31" x:Name="Search" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" BorderThickness="0" Click="Search_Click"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Margin="0,0,5,5">
+                            <ToggleButton x:Name="Compositions" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="6,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#999999" >COMPOSITIONS</ToggleButton>
+                        </Border>
+                        <Border Margin="0,0,5,5">
+                            <ToggleButton x:Name="Albums" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="6,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#999999" >ALBUMS</ToggleButton>
+                        </Border>
+                    </StackPanel>
+                    <StackPanel x:Name="My_playlists" Margin="10,47,0,0" Orientation="Horizontal" >
+                        <Image  Margin="0,1,30,0" Height="18" Width="18" MouseDown="Playlists_MouseDown">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup ClipGeometry="M0,0 V18 H18 V0 H0 Z">
+                                            <GeometryDrawing x:Name="PlaylistsBrush" Brush="#FFAFAFAF" Geometry="F1 M18,18z M0,0z M17.5433,6.09883C17.015,5.01523 16.1075,4.40852 15.2295,3.82108 14.5753,3.38276 13.9583,2.96886 13.5212,2.37628L13.4403,2.26702C13.1832,1.92125 12.8901,1.5292 12.8451,1.20013 12.8412,1.17314 12.8258,1.15129 12.8181,1.12429 12.8065,1.07931 12.7937,1.03689 12.7731,0.995753 12.7577,0.962333 12.7358,0.932768 12.7127,0.901918 12.6857,0.867212 12.66,0.833792 12.6266,0.805513 12.5945,0.777234 12.5597,0.757953 12.5238,0.736101 12.4903,0.716819 12.4595,0.698824 12.4222,0.68597 12.3772,0.669259 12.3309,0.662832 12.2821,0.657691 12.2577,0.656405 12.2371,0.644836 12.2114,0.644836 12.196,0.644836 12.1831,0.652549 12.169,0.653834 12.1536,0.65512 12.1394,0.648693 12.124,0.651263 12.0957,0.65512 12.0739,0.670545 12.0469,0.678257 12.0032,0.689826 11.962,0.701394 11.9235,0.721961 11.8875,0.739957 11.8566,0.763094 11.8258,0.788802 11.7924,0.814511 11.7602,0.840219 11.7332,0.872354 11.7062,0.903204 11.687,0.936625 11.6664,0.971331 11.6458,1.00732 11.6265,1.04203 11.6124,1.08188 11.5983,1.12172 11.5931,1.16286 11.588,1.20656 11.5816,1.23227 11.5687,1.25798 11.5687,1.28754L11.5687,12.7405C11.0301,12.4141 10.3668,12.2135 9.64058,12.2135 7.86801,12.2135 6.42706,13.3665 6.42706,14.7843 6.42706,16.2022 7.86801,17.3552 9.64058,17.3552 11.4132,17.3552 12.8541,16.2022 12.8541,14.7843L12.8541,7.29298C13.8194,7.66189 15.3992,8.60152 15.8337,10.7957 15.7527,10.9153 15.6756,11.0451 15.5856,11.1466 15.3504,11.4127 15.3774,11.8189 15.6434,12.0529 15.7656,12.1608 15.9172,12.2135 16.0676,12.2135 16.2463,12.2135 16.4224,12.139 16.5497,11.995 16.7206,11.8009 16.8736,11.5708 17.0201,11.3343 17.0368,11.3137 17.0497,11.2945 17.0638,11.2726 17.5831,10.4037 17.9276,9.30465 17.9932,8.21847 18.0356,7.5205 17.88,6.78781 17.5433,6.09883z M9.64058,16.0698C8.59555,16.0698 7.71247,15.481 7.71247,14.7843 7.71247,14.0877 8.59555,13.4989 9.64058,13.4989 10.6856,13.4989 11.5687,14.0877 11.5687,14.7843 11.5687,15.481 10.6856,16.0698 9.64058,16.0698z M16.7116,8.13749C16.6936,8.43828 16.6473,8.73906 16.5818,9.03342 15.6781,7.21971 14.0392,6.27493 12.8541,5.9253L12.8541,3.564C13.358,4.1013 13.9428,4.50364 14.5161,4.88669 15.2861,5.40214 16.0136,5.88931 16.3903,6.66184 16.6268,7.14387 16.7399,7.6696 16.7116,8.13749z" />
+                                            <GeometryDrawing Brush="{Binding ElementName=PlaylistsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M8.35517,0.644836L0.642705,0.644836C0.287932,0.644836 0,0.932768 0,1.28754 0,1.64231 0.287932,1.93025 0.642705,1.93025L8.35517,1.93025C8.70994,1.93025 8.99787,1.64231 8.99787,1.28754 8.99787,0.932768 8.70994,0.644836 8.35517,0.644836z" />
+                                            <GeometryDrawing Brush="{Binding ElementName=PlaylistsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M8.35517,4.50105L0.642705,4.50105C0.287932,4.50105 0,4.78898 0,5.14375 0,5.49853 0.287932,5.78646 0.642705,5.78646L8.35517,5.78646C8.70994,5.78646 8.99787,5.49853 8.99787,5.14375 8.99787,4.78898 8.70994,4.50105 8.35517,4.50105z" />
+                                            <GeometryDrawing Brush="{Binding ElementName=PlaylistsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M4.49894,8.3573L0.642705,8.3573C0.287932,8.3573 0,8.64523 0,9 0,9.35478 0.287932,9.64271 0.642705,9.64271L4.49894,9.64271C4.85371,9.64271 5.14164,9.35478 5.14164,9 5.14164,8.64523 4.85371,8.3573 4.49894,8.3573z" />
+                                            <GeometryDrawing Brush="{Binding ElementName=PlaylistsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M4.49894,12.2135L0.642705,12.2135C0.287932,12.2135 0,12.5015 0,12.8562 0,13.211 0.287932,13.4989 0.642705,13.4989L4.49894,13.4989C4.85371,13.4989 5.14164,13.211 5.14164,12.8562 5.14164,12.5015 4.85371,12.2135 4.49894,12.2135z" />
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock x:Name="PlaylistsTextBlock" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="20" MouseDown="Playlists_MouseDown">My playlists</TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="9,10,0,0" Orientation="Horizontal" >
+                        <Image  Margin="0,1,30,0" Height="18" Width="18" MouseDown="Shop_MouseDown">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup ClipGeometry="M0,0 V18 H19 V0 H0 Z">
+                                            <DrawingGroup Opacity="1">
+                                                <DrawingGroup.ClipGeometry>
+                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,18.8571,18" />
+                                                </DrawingGroup.ClipGeometry>
+                                                <GeometryDrawing x:Name="ShopBrush" Brush="#FFAFAFAF" Geometry="F1 M19,18z M0,0z M6.07558,11.4287L6.07644,11.4287C6.07716,11.4287,6.07788,11.4286,6.0786,11.4286L16.0949,11.4286C16.3415,11.4286,16.5583,11.2594,16.6261,11.0141L18.8359,3.01414C18.8835,2.84167 18.8501,2.65625 18.7458,2.5131 18.6414,2.36994 18.4781,2.28571 18.3047,2.28571L4.80148,2.28571 4.40656,0.44747C4.35031,0.186012,4.12616,0,3.86719,0L0.552456,0C0.247311,0 0,0.255804 0,0.571429 0,0.887054 0.247311,1.14286 0.552456,1.14286L3.42408,1.14286C3.494,1.4686 5.31394,9.93973 5.41868,10.4271 4.83155,10.6911 4.41965,11.2966 4.41965,12 4.41965,12.9452 5.16316,13.7143 6.07702,13.7143L16.0949,13.7143C16.4,13.7143 16.6474,13.4585 16.6474,13.1429 16.6474,12.8272 16.4,12.5714 16.0949,12.5714L6.07702,12.5714C5.77245,12.5714 5.52456,12.315 5.52456,12 5.52456,11.6854 5.77159,11.4295 6.07558,11.4287L6.07558,11.4287z M17.5723,3.42857L15.6781,10.2857 6.52014,10.2857 5.04692,3.42857 17.5723,3.42857z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=ShopBrush, Path=Brush}" Geometry="F0 M19,18z M0,0z M16.0949,11.4286C16.3415,11.4286,16.5583,11.2594,16.6261,11.0141L18.8359,3.01414C18.8835,2.84167 18.8501,2.65625 18.7458,2.5131 18.6414,2.36994 18.4781,2.28571 18.3047,2.28571L4.80148,2.28571 4.40656,0.44747C4.35031,0.186012,4.12616,0,3.86719,0L0.552456,0C0.247311,0 0,0.255804 0,0.571429 0,0.887054 0.247311,1.14286 0.552456,1.14286L3.42408,1.14286 5.41868,10.4271C5.32414,10.4696 5.23414,10.521 5.14968,10.5801 4.94878,10.721 4.77917,10.9061 4.65415,11.1219 4.5053,11.3788 4.41965,11.6792 4.41965,12 4.41965,12.9452 5.16316,13.7143 6.07702,13.7143L16.0949,13.7143C16.3187,13.7143 16.5114,13.5767 16.5982,13.3788 16.6298,13.3069 16.6474,13.227 16.6474,13.1429 16.6474,12.8272 16.4,12.5714 16.0949,12.5714L6.07702,12.5714C6.07721,12.5714 6.07683,12.5714 6.07702,12.5714 6.07673,12.5714 6.07587,12.5714 6.07558,12.5714 5.87216,12.5709 5.69418,12.456 5.59873,12.2857 5.55158,12.2016 5.52456,12.104 5.52456,12 5.52456,11.7547 5.67475,11.5451 5.88502,11.4643 5.94442,11.4414 6.00862,11.4289 6.07558,11.4287L6.0786,11.4286 16.0949,11.4286z M15.6781,10.2857L17.5723,3.42857 5.04692,3.42857 6.52014,10.2857 15.6781,10.2857z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=ShopBrush, Path=Brush}" Geometry="F1 M19,18z M0,0z M5.38776,15.4286C5.38776,16.3738 6.19343,17.1429 7.18367,17.1429 8.17392,17.1429 8.97959,16.3738 8.97959,15.4286 8.97959,14.4833 8.17392,13.7143 7.18367,13.7143 6.19343,13.7143 5.38776,14.4833 5.38776,15.4286z M7.18367,14.8572C7.51371,14.8572 7.78231,15.1135 7.78231,15.4286 7.78231,15.7436 7.51371,16 7.18367,16 6.85364,16 6.58504,15.7436 6.58504,15.4286 6.58504,15.1135 6.85364,14.8572 7.18367,14.8572z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=ShopBrush, Path=Brush}" Geometry="F0 M19,18z M0,0z M7.18367,17.1429C6.19343,17.1429 5.38776,16.3738 5.38776,15.4286 5.38776,14.4833 6.19343,13.7143 7.18367,13.7143 8.17392,13.7143 8.97959,14.4833 8.97959,15.4286 8.97959,16.3738 8.17392,17.1429 7.18367,17.1429z M7.78231,15.4286C7.78231,15.1135 7.51371,14.8572 7.18367,14.8572 6.85364,14.8572 6.58504,15.1135 6.58504,15.4286 6.58504,15.7436 6.85364,16 7.18367,16 7.51371,16 7.78231,15.7436 7.78231,15.4286z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=ShopBrush, Path=Brush}" Geometry="F1 M19,18z M0,0z M12.5714,15.4286C12.5714,16.3738 13.3771,17.1429 14.3673,17.1429 15.3576,17.1429 16.1632,16.3738 16.1632,15.4286 16.1632,14.4833 15.3576,13.7143 14.3673,13.7143 13.3771,13.7143 12.5714,14.4833 12.5714,15.4286z M14.3673,14.8572C14.6974,14.8572 14.966,15.1135 14.966,15.4286 14.966,15.7436 14.6974,16 14.3673,16 14.0373,16 13.7687,15.7436 13.7687,15.4286 13.7687,15.1135 14.0373,14.8572 14.3673,14.8572z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=ShopBrush, Path=Brush}" Geometry="F0 M19,18z M0,0z M14.3673,17.1429C13.3771,17.1429 12.5714,16.3738 12.5714,15.4286 12.5714,14.4833 13.3771,13.7143 14.3673,13.7143 15.3576,13.7143 16.1632,14.4833 16.1632,15.4286 16.1632,16.3738 15.3576,17.1429 14.3673,17.1429z M14.966,15.4286C14.966,15.1135 14.6974,14.8572 14.3673,14.8572 14.0373,14.8572 13.7687,15.1135 13.7687,15.4286 13.7687,15.7436 14.0373,16 14.3673,16 14.6974,16 14.966,15.7436 14.966,15.4286z" />
+                                            </DrawingGroup>
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock x:Name="ShopTextBlock" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="20" MouseDown="Shop_MouseDown">Shop</TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="10,10,0,0" Orientation="Horizontal" >
+                        <Image  Margin="0,1,30,0" Height="18" Width="18" MouseDown="Radio_MouseDown">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup ClipGeometry="M0,0 V18 H18 V0 H0 Z">
+                                            <DrawingGroup Opacity="1">
+                                                <DrawingGroup.ClipGeometry>
+                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,18,18" />
+                                                </DrawingGroup.ClipGeometry>
+                                                <GeometryDrawing x:Name="RadioBrush" Brush="#FFAFAFAF" Geometry="F1 M18,18z M0,0z M4.05534,14.304C2.14836,12.7845 1.05469,10.5155 1.05469,8.07886 1.05469,5.64232 2.14829,3.37337 4.0552,1.85385 4.28298,1.67234 4.32046,1.34053 4.13895,1.11279 3.95747,0.885015 3.62566,0.847504 3.39789,1.02902 1.23848,2.74981 0,5.31938 0,8.07886 0,10.8385 1.23852,13.4081 3.39806,15.1288 3.6257,15.3103 3.95754,15.2729 4.13912,15.045 4.3206,14.8173 4.28312,14.4855 4.05534,14.304z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=RadioBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M14.6022,1.02906C14.3743,0.847585 14.0426,0.885061 13.8611,1.11284 13.6796,1.34062 13.7171,1.67239 13.9448,1.8539 15.8517,3.37346 16.9453,5.64237 16.9453,8.07887 16.9453,10.5154 15.8517,12.7843 13.9448,14.3039 13.717,14.4854 13.6795,14.8172 13.8611,15.0449 14.0426,15.2728 14.3745,15.3101 14.6021,15.1287 16.7615,13.4079 18,10.8383 18,8.07887 18,5.31943 16.7615,2.74985 14.6022,1.02906z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=RadioBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M5.81255,12.1028C4.57625,11.1194 3.86718,9.65274 3.86718,8.07887 3.86718,6.50496 4.57625,5.03827 5.81259,4.05488 6.0405,3.87358 6.07833,3.54185 5.897,3.3139 5.71566,3.08594 5.38393,3.04815 5.15601,3.22945 3.66669,4.41411 2.8125,6.18163 2.8125,8.07887 2.8125,9.97608 3.66669,11.7436 5.15597,12.9282 5.38407,13.1096 5.71573,13.0716 5.89696,12.8438 6.07826,12.6159 6.04047,12.2841 5.81255,12.1028z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=RadioBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M12.844,3.22953C12.6161,3.04826 12.2844,3.08602 12.1031,3.31397 11.9218,3.54189 11.9595,3.87366 12.1875,4.05496 13.4238,5.03832 14.1328,6.50496 14.1328,8.07887 14.1328,9.65278 13.4238,11.1195 12.1874,12.1028 11.9595,12.2841 11.9217,12.6159 12.103,12.8438 12.2844,13.0719 12.6162,13.1095 12.844,12.9283 14.3333,11.7436 15.1875,9.97608 15.1875,8.07887 15.1875,6.18167 14.3333,4.41415 12.844,3.22953z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=RadioBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M9,5.44922C7.54611,5.44922 6.36328,6.63205 6.36328,8.08594 6.36328,9.35926 7.27059,10.4246 8.47266,10.6696L8.47266,16.5586C8.47266,16.8498 8.70877,17.0859 9,17.0859 9.29123,17.0859 9.52734,16.8498 9.52734,16.5586L9.52734,10.6696C10.7294,10.4246 11.6367,9.3593 11.6367,8.08594 11.6367,6.63205 10.4539,5.44922 9,5.44922z M9,9.66797C8.12767,9.66797 7.41797,8.95827 7.41797,8.08594 7.41797,7.21361 8.12767,6.50391 9,6.50391 9.87233,6.50391 10.582,7.21361 10.582,8.08594 10.582,8.95827 9.87233,9.66797 9,9.66797z" />
+                                            </DrawingGroup>
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock x:Name="RadioTextBlock" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="20" MouseDown="Radio_MouseDown">Radio</TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="10,10,0,0" Orientation="Horizontal" >
+                        <Image  Margin="0,1,30,0" Height="18" Width="18" MouseDown="Albums_MouseDown">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup ClipGeometry="M0,0 V18 H18 V0 H0 Z">
+                                            <DrawingGroup Opacity="1">
+                                                <DrawingGroup.ClipGeometry>
+                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,18,18" />
+                                                </DrawingGroup.ClipGeometry>
+                                                <GeometryDrawing x:Name="AlbumsBrush" Brush="#FFAFAFAF" Geometry="F1 M18,18z M0,0z M14.7273,1.63638L1.63638,1.63638C0.733871,1.63638,0,2.37025,0,3.27272L0,16.3636C0,17.2661,0.733871,18,1.63638,18L14.7273,18C15.6298,18,16.3637,17.2661,16.3637,16.3636L16.3637,3.27272C16.3637,2.37025,15.6298,1.63638,14.7273,1.63638z M15.5455,16.3637C15.5455,16.8147,15.1783,17.1818,14.7273,17.1818L1.63638,17.1818C1.18535,17.1818,0.818208,16.8147,0.818208,16.3637L0.818208,3.27272C0.81817,2.8217,1.18532,2.45455,1.63638,2.45455L14.7273,2.45455C15.1783,2.45455,15.5455,2.8217,15.5455,3.27272L15.5455,16.3637 15.5455,16.3637z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=AlbumsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M16.3636,0L2.86363,0C2.63751,0 2.45453,0.182979 2.45453,0.409104 2.45453,0.635229 2.63751,0.818208 2.86363,0.818208L16.3636,0.818208C16.8147,0.818208,17.1818,1.18535,17.1818,1.63638L17.1818,15.1364C17.1818,15.3625 17.3648,15.5455 17.5909,15.5455 17.817,15.5455 18,15.3625 18,15.1364L18,1.63638C18,0.733871,17.2661,0,16.3636,0z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=AlbumsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M8.18182,9.00002C7.73079,9.00002 7.36365,9.36716 7.36365,9.81819 7.36365,10.2692 7.73079,10.6364 8.18182,10.6364 8.63284,10.6364 8.99999,10.2692 8.99999,9.81819 9.00003,9.36716 8.63288,9.00002 8.18182,9.00002z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=AlbumsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M8.34998,3.5C4.90379,3.5 2.09998,6.30382 2.09998,9.75 2.09998,13.1962 4.90379,16 8.34998,16 11.7962,16 14.6,13.1962 14.6,9.75 14.6,6.30382 11.7962,3.5 8.34998,3.5z M8.34998,15.2187C5.33449,15.2187 2.88125,12.7655 2.88125,9.75 2.88125,6.73448 5.33449,4.28127 8.34998,4.28127 11.3655,4.28127 13.8187,6.73448 13.8187,9.75 13.8187,12.7655 11.3655,15.2187 8.34998,15.2187z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=AlbumsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M8.18179,7.36365C6.82826,7.36365 5.72723,8.46467 5.72723,9.81819 5.72723,11.1717 6.82826,12.2727 8.18179,12.2727 9.53532,12.2727 10.6363,11.1717 10.6363,9.81819 10.6363,8.46467 9.53532,7.36365 8.18179,7.36365z M8.18179,11.4546C7.27932,11.4546 6.54541,10.7207 6.54541,9.81819 6.54541,8.91569 7.27928,8.18182 8.18179,8.18182 9.0843,8.18182 9.81817,8.91573 9.81817,9.81819 9.81817,10.7207 9.0843,11.4546 8.18179,11.4546z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=AlbumsBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M8.59101,5.76606C8.81665,5.76606 9,5.59474 9,5.38303 9,5.17171 8.81707,5 8.59101,5 8.59062,5 8.5902,5 8.5894,5 7.27898,5 6.04682,5.47804 5.11983,6.34619 4.96006,6.49582 4.96006,6.7382 5.11983,6.88779 5.19969,6.96258 5.30437,7 5.409,7 5.51364,7 5.61827,6.96258 5.69818,6.88779 6.47062,6.16439 7.49745,5.76602 8.5894,5.76602 8.58982,5.76606 8.5902,5.76606 8.59101,5.76606z" />
+                                            </DrawingGroup>
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock x:Name="AlbumsTextBlock" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="20" MouseDown="Albums_MouseDown">Albums</TextBlock>
+                    </StackPanel>
+                    <StackPanel Margin="10,10,0,0" Orientation="Horizontal" >
+                        <Image  Margin="0,1,30,0" Height="18" Width="18" MouseDown="Countries_MouseDown">
+                            <Image.Source>
+                                <DrawingImage>
+                                    <DrawingImage.Drawing>
+                                        <DrawingGroup ClipGeometry="M0,0 V18 H18 V0 H0 Z">
+                                            <DrawingGroup Opacity="1">
+                                                <DrawingGroup.ClipGeometry>
+                                                    <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,18,18" />
+                                                </DrawingGroup.ClipGeometry>
+                                                <GeometryDrawing x:Name="CountriesBrush" Brush="#FFAFAFAF" Geometry="F1 M18,18z M0,0z M16.0733,9.24053C16.071,9.24053,16.0687,9.24057,16.0664,9.24062L8.75913,9.24062 8.75913,1.9088C8.75807,1.64262 8.54192,1.42748 8.27574,1.42763 6.07774,1.42031 3.96823,2.29282 2.4176,3.85057 0.858942,5.43657 0,7.51451 0,9.70163 0,14.264 3.71148,17.9757 8.27377,17.9757 10.4714,17.9831 12.5805,17.1105 14.1306,15.5528 15.6893,13.9667 16.5477,11.8988 16.5477,9.71169 16.5468,9.45056 16.3344,9.23961 16.0733,9.24053z M13.4471,14.8853C12.0768,16.259 10.2138,17.0272 8.27348,17.0184 4.24178,17.0184 0.961768,13.7359 0.961768,9.70423 0.961768,7.77093 1.72438,5.93126 3.10212,4.52936 4.35433,3.27066 6.02467,2.51493 7.79678,2.40537L7.79678,9.70168C7.79678,9.96743,8.00777,10.2029,8.27348,10.2029L15.5695,10.2029C15.445,11.9674,14.6919,13.6287,13.4471,14.8853z" />
+                                                <GeometryDrawing Brush="{Binding ElementName=CountriesBrush, Path=Brush}" Geometry="F1 M18,18z M0,0z M15.5829,2.44201C15.581,2.44018 15.579,2.44321 15.5771,2.44124 13.991,0.88262 11.9108,0.0242081 9.72368,0.0242081 9.4575,0.0240638 9.24135,0.239196 9.2403,0.505381L9.2403,8.29831C9.2403,8.56401,9.46019,8.75942,9.72594,8.75942L17.5188,8.75942C17.7799,8.76409 17.9953,8.55622 17.9999,8.29518 18,8.29287 18,8.29056 18,8.28825 18,6.10108 17.1416,4.02814 15.5829,2.44201z M10.2026,7.79707L10.2026,1.00234C11.983,1.11748 13.6098,1.85079 14.8973,3.11469 16.1612,4.40206 16.9067,6.06485 17.0219,7.79707L10.2026,7.79707z" />
+                                            </DrawingGroup>
+                                        </DrawingGroup>
+                                    </DrawingImage.Drawing>
+                                </DrawingImage>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock x:Name="CountriesTextBlock" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="20" MouseDown="Countries_MouseDown">Countries</TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <Grid x:Name="LogOutGrid" VerticalAlignment="Bottom" Margin="15,0,15,11" >
+                    <TextBlock x:Name="LogOut" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="18" FontWeight="Bold" MouseDown="LogOut_MouseDown">Log Out</TextBlock>
+                    <Image x:Name="Settings" Width="20" HorizontalAlignment="Right" Margin="0,2" MouseDown="Settings_MouseDown">
+                        <Image.Source>
+                            <DrawingImage>
+                                <DrawingImage.Drawing>
+                                    <DrawingGroup ClipGeometry="M0,0 V22 H21 V0 H0 Z">
+                                        <DrawingGroup.Transform>
+                                            <TranslateTransform X="0" Y="7.6283428117014167E-21" />
+                                        </DrawingGroup.Transform>
+                                        <GeometryDrawing Brush="#FFAFAFAF" Geometry="F1 M21,22z M0,0z M11.6341,21.015L9.45716,21.015C9.04216,21.015,8.92232,21.015,7.79182,18.1588L7.03786,17.8456C4.71427,18.9222 4.43522,18.9222 4.31537,18.9222 4.16154,18.9222 3.98893,18.8537 3.88071,18.7432L2.34148,17.2046C2.03471,16.896,1.956,16.8166,3.17683,13.9896L2.87274,13.2564C0,12.2072,0,12.0803,0,11.6411L0,9.46337C0,9.02782,0,8.91642,2.8629,7.78509L3.16699,7.05005C1.87819,4.27696,1.96674,4.18748,2.27619,3.87611L3.8181,2.33754C3.92632,2.22979 4.09894,2.16131 4.25098,2.16131 4.36278,2.16131 4.65345,2.16131 7.0164,3.17941L7.76589,2.86805C8.81678,-2.50331E-07,8.95004,0,9.36593,0L11.5428,0C11.9569,0,12.0777,0,13.2073,2.858L13.9603,3.16846C16.2822,2.09465 16.5612,2.09465 16.6828,2.09465 16.8358,2.09465 17.0075,2.16222 17.1157,2.26997L18.6585,3.80671C18.959,4.10895,19.044,4.19478,17.8232,7.02357L18.1264,7.76135C21,8.80868,21,8.93469,21,9.37206L21,11.5489C21,11.9854,20.9991,12.0977,18.1353,13.2299L17.833,13.965C19.1227,16.7362,19.0333,16.8266,18.7265,17.138L17.181,18.6793C17.0719,18.7879 16.9002,18.8555 16.7481,18.8555 16.6381,18.8555 16.3492,18.8555 13.9863,17.8356L13.2332,18.147C12.1823,21.015,12.0598,21.015,11.6341,21.015z M9.77019,19.8261L11.313,19.8261C11.5187,19.3769 11.9149,18.3615 12.2333,17.4868 12.2897,17.3306 12.4086,17.2055 12.5598,17.1435L13.7734,16.6413C13.9156,16.5828 14.0775,16.5837 14.2197,16.6458 15.0926,17.0248 16.1238,17.4484 16.5907,17.6091L17.6711,16.528C17.4976,16.0605 17.0594,15.0707 16.6703,14.2371 16.5997,14.0846 16.5952,13.9074 16.6587,13.7504L17.1586,12.5378C17.2204,12.3889 17.3384,12.2712 17.486,12.2145 18.3652,11.8676 19.3883,11.4393 19.8364,11.222L19.8364,9.70991C19.383,9.50355 18.3678,9.11091 17.4949,8.79407 17.3402,8.73837 17.2159,8.61966 17.1524,8.46444L16.6524,7.25002C16.5907,7.09844 16.5916,6.92769 16.6569,6.77794 17.0308,5.91689 17.4475,4.89878 17.6112,4.42488L16.5299,3.34651C16.0666,3.51726 15.0622,3.9592 14.2144,4.35457 14.0704,4.42214 13.9022,4.42671 13.7546,4.36462L12.541,3.86424C12.3952,3.80398 12.2771,3.68436 12.219,3.53461 11.8729,2.6553 11.4463,1.63262 11.228,1.18703L9.68612,1.18703C9.47951,1.63719 9.0842,2.65256 8.7667,3.52639 8.71124,3.68345 8.5914,3.80945 8.44025,3.87063L7.23015,4.37284C7.08616,4.43219 6.92606,4.43128 6.78296,4.36918 5.91005,3.99025 4.87526,3.56657 4.40928,3.4086L3.32888,4.48789C3.50328,4.95631 3.93884,5.94611 4.32879,6.78159 4.40034,6.93408 4.40302,7.11122 4.33952,7.26828L3.83688,8.47996C3.77517,8.6288 3.65801,8.74567 3.51043,8.8032 2.63126,9.14926 1.60988,9.57568 1.16269,9.793L1.16269,11.306C1.61435,11.5142 2.63037,11.9077 3.50417,12.2255 3.65801,12.2821 3.78233,12.4017 3.84493,12.5542L4.34399,13.7659C4.4066,13.9166 4.40392,14.0864 4.34042,14.2361 3.96657,15.0981 3.54979,16.1162 3.38612,16.5892L4.46652,17.6685C4.92892,17.4968 5.93331,17.0549 6.78207,16.6604 6.92696,16.5929 7.09331,16.5892 7.24178,16.6495L8.45545,17.1526C8.60302,17.2129 8.7184,17.3316 8.77653,17.4813 9.12445,18.3606 9.55196,19.3824 9.77019,19.8261z M10.5,14.2791C8.42594,14.2791 6.73735,12.5862 6.73735,10.508 6.73735,8.43065 8.42594,6.73959 10.5,6.73959 12.5732,6.73959 14.2609,8.43065 14.2609,10.508 14.2609,12.5862 12.5732,14.2791 10.5,14.2791z M10.5,7.92753C9.06721,7.92753 7.90183,9.08535 7.90183,10.508 7.90183,11.9333 9.06721,13.0911 10.5,13.0911 11.9328,13.0911 13.0973,11.9324 13.0973,10.508 13.0973,9.08443 11.9328,7.92753 10.5,7.92753z" />
+                                    </DrawingGroup>
+                                </DrawingImage.Drawing>
+                            </DrawingImage>
+                        </Image.Source>
+                    </Image>
+                </Grid>
+            </Grid>
+            <Grid>
+                <Frame x:Name="Frame"/>
+            </Grid>
+        </DockPanel>
+    </Border>
+</Window>

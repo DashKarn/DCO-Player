@@ -1,0 +1,40 @@
+﻿<Page x:Class="DCO_Player.RadioIn"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DCO_Player"
+      mc:Ignorable="d" 
+      d:DesignHeight="738" d:DesignWidth="1320"
+      Title="RadioIn">
+    <ScrollViewer>
+        <Grid>
+        <Button Style="{StaticResource UndoButton}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="30" Height="30" x:Name="undo" ScrollViewer.CanContentScroll="False" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" BorderThickness="0" RenderTransformOrigin="0.5,0.48" Margin="30,30,0,0" Click="Undo_Click">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform Y="1.24"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Grid Margin="64,90,0,0" Height="300" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="312"></ColumnDefinition>
+                    <ColumnDefinition Width="665*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="4" >
+                <Image Width="248" Height="248" x:Name="ImageRadio"/>
+            </Border>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <TextBlock x:Name="RadiostationName" Foreground="#F0F0F0" FontFamily="Calibri" FontSize="55" FontWeight="Bold"></TextBlock>
+                    <TextBlock x:Name="RadiostationDescription" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#AFAFAF" FontFamily="Calibri" Margin="0,34,0,0" FontSize="16" Height="auto" Width="auto"/>
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,430,0,0">
+                <WrapPanel x:Name="SPPlaylist" HorizontalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>
