@@ -1,0 +1,16 @@
+﻿<Page x:Class="DCO_Player.Radio"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DCO_Player"
+      mc:Ignorable="d" 
+      d:DesignHeight="688" d:DesignWidth="1320"
+      Title="Radio">
+    <ScrollViewer>
+        <Grid>
+            <Label Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">Radio</Label>
+            <WrapPanel x:Name="WPR" Margin="0,48,0,0" HorizontalAlignment="Center"/>
+        </Grid>
+    </ScrollViewer>
+</Page>

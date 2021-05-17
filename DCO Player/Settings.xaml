@@ -1,0 +1,105 @@
+﻿<Page x:Class="DCO_Player.Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DCO_Player"
+      mc:Ignorable="d" 
+      d:DesignHeight="688" d:DesignWidth="1320"
+      Title="Settings">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="219*"/>
+                <RowDefinition Height="469*"/>
+            </Grid.RowDefinitions>
+            <Label Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Grid.RowSpan="2">Settings</Label>
+            <Grid Margin="64" Grid.RowSpan="2">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="0,30,0,264">
+                        <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">Volume</Label>
+                        <Slider x:Name="Volume" TickFrequency="1" Foreground="{x:Null}" Maximum="100" Height="200" Value="50" Orientation="Vertical" ValueChanged="Volume_ValueChanged" HorizontalAlignment="Center" Width="20"/>
+                        <Label x:Name="VolumeContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Height="27" Content="50"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,30,0,264" Width="71">
+                        <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">SSR</Label>
+                        <Slider x:Name="SSR" TickFrequency="1" Foreground="{x:Null}" Maximum="100" Height="200" Value="0" Orientation="Vertical" Margin="25,0" ValueChanged="SSR_ValueChanged" />
+                        <Label x:Name="SSRContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Height="27" Content="0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="190,0,385,0">
+                    <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">Eqalizer</Label>
+
+                    <StackPanel x:Name="gridequalizer" Orientation="Horizontal">
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">60Hz</Label>
+                            <Slider x:Name="first"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="0" Orientation="Vertical" Margin="20,0" ValueChanged="First_ValueChanged"/>
+                            <Label x:Name="firstContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">170Hz</Label>
+                            <Slider x:Name="second"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="1" Orientation="Vertical" Margin="20,0" ValueChanged="Second_ValueChanged"/>
+                            <Label x:Name="secondContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">310Hz</Label>
+                            <Slider x:Name="third"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="2" Orientation="Vertical" Margin="20,0" ValueChanged="Third_ValueChanged"/>
+                            <Label x:Name="thirdContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">600Hz</Label>
+                            <Slider x:Name="fourth"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="3" Orientation="Vertical" Margin="20,0" ValueChanged="Fourth_ValueChanged"/>
+                            <Label x:Name="fourthContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">1kHz</Label>
+                            <Slider x:Name="fifth"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="4" Orientation="Vertical" Margin="20,0" ValueChanged="Fifth_ValueChanged"/>
+                            <Label x:Name="fifthContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">3kHz</Label>
+                            <Slider x:Name="sixth"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="5" Orientation="Vertical" Margin="20,0" ValueChanged="Sixth_ValueChanged"/>
+                            <Label x:Name="sixthContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">6kHz</Label>
+                            <Slider x:Name="seventh"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="6" Orientation="Vertical" Margin="20,0" ValueChanged="Seventh_ValueChanged"/>
+                            <Label x:Name="seventhContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">12kHz</Label>
+                            <Slider x:Name="eighth"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="7" Orientation="Vertical" Margin="20,0" ValueChanged="Eighth_ValueChanged"/>
+                            <Label x:Name="eighthContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">14kHz</Label>
+                            <Slider x:Name="nineth" Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="8" Orientation="Vertical" Margin="20,0" ValueChanged="Nineth_ValueChanged"/>
+                            <Label x:Name="ninethContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                        <StackPanel Width="60">
+                            <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">16kHz</Label>
+                            <Slider x:Name="tenth"  Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="9" Orientation="Vertical" Margin="20,0" ValueChanged="Tenth_ValueChanged"/>
+                            <Label x:Name="tenthContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Content="0 dB"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="836,0,0,0" Orientation="Horizontal">
+                    <StackPanel Margin="0,30,0,267" Width="70">
+                        <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">Echo</Label>
+                        <Slider x:Name="Echo" TickFrequency="1" Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="echochorus" Orientation="Vertical" ValueChanged="Echo_ValueChanged" HorizontalAlignment="Center" Width="20"/>
+                        <Label x:Name="EchoContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Height="27" Content="0 dB"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,30,0,267" Width="70">
+                        <Label Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center">Chorus</Label>
+                        <Slider x:Name="Chorus" TickFrequency="1" Foreground="{x:Null}" Height="200" Maximum="150" Minimum="-150" IsDirectionReversed="False" Padding="0" UseLayoutRounding="False" SmallChange="10" Tag="echochorus" Orientation="Vertical" Margin="25,0" ValueChanged="Chorus_ValueChanged"/>
+                        <Label x:Name="ChorusContent" Foreground="#AFAFAF" FontFamily="Century Gothic" FontSize="16" HorizontalContentAlignment="Center" Height="27" Content="0 dB"/>
+                    </StackPanel>
+                </StackPanel>
+
+
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Page>

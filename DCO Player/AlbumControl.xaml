@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="DCO_Player.AlbumControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DCO_Player"
+             mc:Ignorable="d" 
+             d:DesignHeight="317" d:DesignWidth="250"
+             MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+    <Grid Background="Transparent">
+        <Border VerticalAlignment="Top" Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="3">
+            <Image x:Name="Image" MouseDown="Image_MouseDown"/>
+        </Border>
+        <Grid Margin="0,265,0,0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock x:Name="AlbumName" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+                <TextBlock x:Name="ArtistName" Foreground="#7E7E7E" FontFamily="Calibri" FontSize="14"/>
+            </StackPanel>
+            <Border HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="54" Height="26">
+                <Button x:Name="Price" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#F0F0F0" FontFamily="Calibri" FontSize="16" FontWeight="Bold" Click="Price_Click"/>
+            </Border>
+            <Polyline x:Name="Line" Stroke="#616161" StrokeThickness="1" StrokeEndLineCap="Round" SnapsToDevicePixels="True" Points="0,52 250,52" />
+        </Grid>
+
+    </Grid>
+</UserControl>
