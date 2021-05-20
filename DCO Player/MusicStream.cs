@@ -137,10 +137,10 @@ namespace DCO_Player
 
             MainWindow.Instance.TimeLine.Value = CorTime = Procent * 646.0; // наш таймлайн
 
-            if (ToNextTrack() || Next() || End())
+            if (ToNextTrack() || Next() || Back())
             {
                 string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                string sqlExpression = "SELECT Id_albums, Id_composition, Composition_source, Composition, Artist FROM Album, Artists, Albums where Artists.Id_artists = Albums.Id_artist and Albums.Id_albums = Album.Id_album and Album.Id_album = " + Vars.Id_album;
+               /* string sqlExpression = "SELECT Id_albums, Id_composition, Composition_source, Composition, Artist FROM Album, Artists, Albums where Artists.Id_artists = Albums.Id_artist and Albums.Id_albums = Album.Id_album and Album.Id_album = " + Vars.Id_album;
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -157,9 +157,9 @@ namespace DCO_Player
                             MainWindow.Instance.end.Content = FormatTimeSpan(TimeSpan.FromSeconds(MusicStream.GetTimeOfStream(MusicStream.Stream)));
                         }
                     }
-                }
+                }*/
 
-                sqlExpression = "SELECT Id_playlist, Album.Id_composition, Composition_source, Composition, Artist FROM Playlist, Playlists, Album, Albums, Artists WHERE Playlists.Id_playlists = " + Vars.Id_album + " and Album.Id_composition = Playlist.Id_composition and Albums.Id_albums = Album.Id_album and Artists.Id_artists = Albums.Id_artist and Playlists.Id_user = " + Profile.Id_users;
+                string sqlExpression = "SELECT Id_composition, Name, Artist FROM Songs WHERE Songs.Id_playlist = " + Vars.Id_playlist.ToString();
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -169,10 +169,10 @@ namespace DCO_Player
 
                     while (reader.Read())
                     {
-                        if (Vars.Tracklist[Vars.CurrentTrackNumber].Item1 == (int)reader.GetValue(1)) // Проверка на совпадение ключей альбома
+                        if (Vars.Tracklist[Vars.CurrentTrackNumber].Item1 == (Guid)reader.GetValue(0)) 
                         {
-                            MainWindow.Instance.CompositionName.Text = reader.GetValue(3).ToString();
-                            MainWindow.Instance.ArtistName.Text = reader.GetValue(4).ToString();
+                            MainWindow.Instance.CompositionName.Text = reader.GetValue(1).ToString();
+                            MainWindow.Instance.ArtistName.Text = reader.GetValue(2).ToString();
                             MainWindow.Instance.end.Content = FormatTimeSpan(TimeSpan.FromSeconds(MusicStream.GetTimeOfStream(MusicStream.Stream)));
                         }
                     }
@@ -381,7 +381,7 @@ namespace DCO_Player
             return false;
         }   // Метод для описания пренудительного переключения вперед
 
-        public static bool End()
+        public static bool Back()
         {
             if (EndPoint)
             {

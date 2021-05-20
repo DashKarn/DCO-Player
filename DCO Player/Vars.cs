@@ -10,13 +10,13 @@ namespace DCO_Player
     {
         public static string AppPath = AppDomain.CurrentDomain.BaseDirectory;   // Путь до файла приложения
 
-        public static Guid Id_album; // Буфер индекса
+        public static Guid Id_playlist; // Буфер индекса
 
-        public static Guid id_album; // Индекс
+        public static Guid id_playlist; // Индекс
 
-        public static List<Tuple<int, string>> files = new List<Tuple<int, string>>(); // Буфер файлов воспроизведения
+        public static List<Tuple<Guid, string>> files = new List<Tuple<Guid, string>>(); // Буфер файлов воспроизведения
 
-        public static List<Tuple<int, string>> Tracklist = new List<Tuple<int, string>>(); // Трэклист
+        public static List<Tuple<Guid, string>> Tracklist = new List<Tuple<Guid, string>>(); // Трэклист
 
         public static int CurrentTrackNumber;   // Корректирующая переменная
     }

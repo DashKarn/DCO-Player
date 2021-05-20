@@ -329,7 +329,7 @@ namespace DCO_Player
 
         public void EndButton(object sender, RoutedEventArgs e)
         {
-            MusicStream.End();
+            MusicStream.Back();
             MusicStream.EndPoint = true;
         }
 
