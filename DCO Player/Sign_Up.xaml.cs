@@ -23,7 +23,6 @@ namespace DCO_Player
         string password { get; set; }
         string createDate = DateTime.Now.ToString("d");
         string imageSrc { get; set; }
-        int cash = 1000;
 
         Regex RName = new Regex("^([А-я]|[A-z]){1,19}$");
         Regex RSurname = new Regex("^([А-я]|[A-z]){1,19}$");
@@ -122,29 +121,27 @@ namespace DCO_Player
 
                     Random rd = new Random();
 
-                    Profile.Id_users = rd.Next(999999, 99999999);
+                    Profile.Id_users = Guid.NewGuid();
                     Profile.name = name;
                     Profile.surname = surname;
                     Profile.createDate = createDate;
                     Profile.imageSrc = imageSrc;
-                    Profile.cash = cash;
 
                     connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "INSERT INTO Users (Id_users, Name, Surname, Login, Password, Create_date, User_image_source, Cash) VALUES" +
-                        " (@Id_users, @Name, @Surname, @Login, @Password, @Create_date, @User_image_source, @Cash)";
+                    string sqlExpression = "INSERT INTO Users (Id_user, Name, Surname, Login, Password, Create_date, User_image_source) VALUES" +
+                        " (@Id_user, @Name, @Surname, @Login, @Password, @Create_date, @User_image_source)";
 
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        command.Parameters.Add(new SqlParameter("@Id_users", Profile.Id_users));
+                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_users));
                         command.Parameters.Add(new SqlParameter("@Name", name));
                         command.Parameters.Add(new SqlParameter("@Surname", surname));
                         command.Parameters.Add(new SqlParameter("@Login", login));
                         command.Parameters.Add(new SqlParameter("@Password", password));
                         command.Parameters.Add(new SqlParameter("@Create_date", createDate));
                         command.Parameters.Add(new SqlParameter("@User_image_source", imageSrc));
-                        command.Parameters.Add(new SqlParameter("@Cash", cash));
 
                         int number = command.ExecuteNonQuery();
                         //MessageBox.Show("Добавлено объектов: {0}", number.ToString());
@@ -162,7 +159,7 @@ namespace DCO_Player
             {
                 MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
             }
-            
+
         }
 
         private void Photo_Click(object sender, RoutedEventArgs e)
@@ -188,7 +185,7 @@ namespace DCO_Player
             {
                 MessageBox.Show("Изображение должно быть 600х600 пикселей");
             }
-            
+
         }
     }
 }

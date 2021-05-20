@@ -27,7 +27,7 @@ namespace DCO_Player
 
         ComboBox Playlists = null;
 
-        List<Tuple<int, string>> Id_playlist = new List<Tuple<int, string>>();
+        List<Tuple<Guid, string>> Id_playlist = new List<Tuple<Guid, string>>();
 
         public Composition()
         {
@@ -81,7 +81,7 @@ namespace DCO_Player
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpression = "SELECT Playlist, Id_playlists FROM Playlists, Users WHERE Users.Id_users = Playlists.Id_user and Users.Id_users = " + Profile.Id_users; // Делаем запрос к плейлистам
+            string sqlExpression = "SELECT Name, Id_playlist FROM Playlists, Users WHERE Users.Id_user = Playlists.Id_user and Users.Id_user = " + Profile.Id_users; // Делаем запрос к плейлистам
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -99,7 +99,7 @@ namespace DCO_Player
                     while (reader.Read())
                     {
                         Playlists.Items.Add(reader.GetValue(0).ToString());
-                        Id_playlist.Add(Tuple.Create((int)reader.GetValue(1), reader.GetValue(0).ToString()));
+                        Id_playlist.Add(Tuple.Create((Guid)reader.GetValue(1), reader.GetValue(0).ToString()));
                     }
                 }
                 reader.Close();
@@ -112,9 +112,13 @@ namespace DCO_Player
         {
             ComboBox cmb = sender as ComboBox;
 
+            int len, N_sequence = 0;
+
             string connectionString;
             connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpression = "INSERT INTO Playlist (Id_playlist, Id_playlist_composition, Id_composition) VALUES (@Id_playlist, @Id_playlist_composition, @Id_composition)";
+            string sqlExpression_song = "INSERT INTO Playlist_songs (Id_playlist, Id_song, N_sequence) VALUES (@Id_playlist, @Id_song, @N_sequence)";
+            string sqlExpression_max = "SELECT * FROM Playlist_songs WHERE Playlist_songs.Id_playlist = ";
+            string sqlExpression_playlist = "UPDATE Playlists SET Last_update = @Last_update  WHERE Playlists.Id_playlist = ";
 
             foreach (var i in Id_playlist)
             {
@@ -123,14 +127,44 @@ namespace DCO_Player
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
+                        SqlCommand command = new SqlCommand(sqlExpression_max + i.Item1.ToString(), connection);
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.HasRows)
+                        { // если есть данные
+                            while (reader.Read())
+                            {
+                                len = (int)reader.GetValue(2);
+                                if (len > N_sequence)
+                                    N_sequence = len;
+                            }
+                        }
+                        else
+                            N_sequence = 0;
+
+                        reader.Close();
+                    }
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression_song, connection);
 
                         command.Parameters.Add(new SqlParameter("@Id_playlist", i.Item1));
-                        command.Parameters.Add(new SqlParameter("@Id_playlist_composition", new Random().Next(999999, 99999999)));
-                        command.Parameters.Add(new SqlParameter("@Id_composition", Id_composition));
+                        command.Parameters.Add(new SqlParameter("@Id_song", Id_composition));
+                        command.Parameters.Add(new SqlParameter("@N_sequence", N_sequence));
 
                         int number = command.ExecuteNonQuery();
                         //MessageBox.Show("Добавлено объектов: {0}", number.ToString());
+                    }
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression_playlist + i.Item1.ToString(), connection);
+
+                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));
+
+                        command.ExecuteNonQuery();
                     }
                 }
             }

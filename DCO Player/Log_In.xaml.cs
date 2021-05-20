@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -14,7 +15,7 @@ namespace DCO_Player
     {
         string connectionString;
 
-        int id { get; set; }
+        Guid id { get; set; }
         string name { get; set; }
         string surname { get; set; }
         string login { get; set; }
@@ -72,7 +73,7 @@ namespace DCO_Player
                     }
                     else
                     {
-                        MessageBox.Show("Не верный пароль");
+                        MessageBox.Show("Скорее всего у вас неправильный пароль");
                         password = null;
                     }
                 }
@@ -85,7 +86,7 @@ namespace DCO_Player
                 if (BLogin && BPassword)
                 {
                     connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "SELECT * FROM Users WHERE Password = '" + password + "' and Login = '" + login + "'";
+                    string sqlExpression = "SELECT * FROM Users WHERE Login = " + login;
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
@@ -94,14 +95,21 @@ namespace DCO_Player
                         if (reader.HasRows) // если есть данные
                         {
                             reader.Read();
-                            id = (int)reader.GetValue(0);
-                            name = reader.GetValue(1).ToString();
-                            surname = reader.GetValue(2).ToString();
-                            createDate = reader.GetValue(5).ToString();
-                            imageSrc = reader.GetValue(6).ToString();
-                            cash = (int)reader.GetValue(7);
+                            if (reader.GetValue(4).ToString() == password)
+                            {
+                                id = (Guid)reader.GetValue(0);
+                                name = reader.GetValue(1).ToString();
+                                surname = reader.GetValue(2).ToString();
+                                createDate = reader.GetValue(5).ToString();
+                                imageSrc = reader.GetValue(6).ToString();
+                            }
+                            else
+                                MessageBox.Show("Неправильный пароль!");
+
                             reader.Close();
                         }
+                        else
+                            MessageBox.Show("Такого пользователя нет!");
                     }
 
                     Profile.Id_users = id;
@@ -109,7 +117,6 @@ namespace DCO_Player
                     Profile.surname = surname;
                     Profile.createDate = createDate;
                     Profile.imageSrc = imageSrc;
-                    Profile.cash = cash;
 
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();

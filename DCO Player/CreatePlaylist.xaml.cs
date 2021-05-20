@@ -213,17 +213,19 @@ namespace DCO_Player
                     }
 
                     string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "INSERT INTO Playlists (Id_user, Id_playlists, Playlist_image_source, Playlist) VALUES" +
-                        " (@Id_user, @Id_playlists, @Playlist_image_source, @Playlist)";
+                    string sqlExpression = "INSERT INTO Playlists (Id_user, Id_playlist, Name, Last_update, Last_sync, Playlist_image_source) VALUES" +
+                        " (@Id_user, @Id_playlist, @Name, @Last_update, @Last_sync, @Playlist_image_source)";
 
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
                         command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_users));
-                        command.Parameters.Add(new SqlParameter("@Id_playlists", new Random().Next(999999, 99999999)));
+                        command.Parameters.Add(new SqlParameter("@Id_playlists", Guid.NewGuid()));
+                        command.Parameters.Add(new SqlParameter("@Name", Text));
+                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("@Last_sync", null));
                         command.Parameters.Add(new SqlParameter("@Playlist_image_source", Img));
-                        command.Parameters.Add(new SqlParameter("@Playlist", Text));
 
                         number = command.ExecuteNonQuery();
                         //MessageBox.Show("Добавлено объектов " + number.ToString());

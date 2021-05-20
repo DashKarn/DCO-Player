@@ -24,7 +24,7 @@ namespace DCO_Player
     {
         public My_playlists()
         {
-            InitializeComponent();
+            //InitializeComponent();
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             string sqlExpression = "SELECT * FROM Playlists"; // Делаем запрос к плейлистам
@@ -37,18 +37,18 @@ namespace DCO_Player
                 {
                     while (reader.Read())
                     {
-                        if(Profile.Id_users == (int)reader.GetValue(0)){
+                        if(Profile.Id_users == (Guid)reader.GetValue(0)){
                             PlaylistControl playlistControl = new PlaylistControl(); // Создаем образ контрола с плейлистом
 
                             playlistControl.Margin = new Thickness(64, 35, 0, 29);
 
                             playlistControl.Instance = this;
-                            playlistControl.Id_playlist = (int)reader.GetValue(1);
+                            playlistControl.Id_playlist = (Guid)reader.GetValue(1);
 
-                            playlistControl.PlaylistName.Content = reader.GetValue(3).ToString(); // Передаем имя плейлиста в контрол
+                            playlistControl.PlaylistName.Content = reader.GetValue(5).ToString(); // Передаем имя плейлиста в контрол
                             if(reader.GetValue(2).ToString() != "")
                             {
-                                playlistControl.Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + reader.GetValue(2).ToString(), UriKind.Absolute)); // Передаем картинку в плейлист
+                                playlistControl.Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + reader.GetValue(5).ToString(), UriKind.Absolute)); // Передаем картинку в плейлист
                             }
                             WPM.Children.Add(playlistControl); // Добавляем контрол на страницу
                         }

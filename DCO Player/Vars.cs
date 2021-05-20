@@ -10,9 +10,9 @@ namespace DCO_Player
     {
         public static string AppPath = AppDomain.CurrentDomain.BaseDirectory;   // Путь до файла приложения
 
-        public static int Id_album; // Буфер индекса
+        public static Guid Id_album; // Буфер индекса
 
-        public static int id_album; // Индекс
+        public static Guid id_album; // Индекс
 
         public static List<Tuple<int, string>> files = new List<Tuple<int, string>>(); // Буфер файлов воспроизведения
 

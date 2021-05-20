@@ -24,7 +24,7 @@ namespace DCO_Player
     {
         public My_playlists Instance { get; set; }
 
-        public int Id_playlist { get; set; }
+        public Guid Id_playlist { get; set; }
 
         public PlaylistControl()
         {
@@ -34,7 +34,7 @@ namespace DCO_Player
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpressionFirst = "SELECT Id_playlist, Album.Id_composition, Composition_source, Composition, Artist FROM Playlist, Playlists, Album, Albums, Artists WHERE Playlists.Id_playlists = Playlist.Id_playlist and Album.Id_composition = Playlist.Id_composition and Albums.Id_albums = Album.Id_album and Artists.Id_artists = Albums.Id_artist and Playlists.Id_user = " + Profile.Id_users; // Делаем запрос к исполнителям
+            string sqlExpressionFirst = "SELECT Id_playlist, Id_song, Path, Name, Artist FROM Playlist_songs, Playlists, Songs WHERE Playlists.Id_playlists = Playlist_songs.Id_playlist and Playlist_songs.Id_song = Songs.Id_song  and Playlists.Id_user = " + Profile.Id_users; // Делаем запрос к исполнителям
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -50,7 +50,7 @@ namespace DCO_Player
 
                     while (reader.Read())
                     {
-                        if (Id_playlist == (int)reader.GetValue(0)) // Проверка на совпадение ключей альбома
+                        if (Id_playlist == (Guid)reader.GetValue(0)) // Проверка на совпадение ключей альбома
                         {
                             Composition composition = new Composition(); // Создаем образ контрола с альбомом
 
@@ -61,7 +61,7 @@ namespace DCO_Player
                             composition.ArtistName.Text = reader.GetValue(4).ToString();
                             playlist.PlaylistName = PlaylistName;
 
-                            Vars.files.Add(Tuple.Create((int)reader.GetValue(1), Environment.CurrentDirectory + reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
+                            Vars.files.Add(Tuple.Create((int)reader.GetValue(1), reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
 
                             playlist.WPP.Children.Add(composition); // Добавляем контрол на страницу
                         }
