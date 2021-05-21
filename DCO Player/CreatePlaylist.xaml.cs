@@ -221,10 +221,10 @@ namespace DCO_Player
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
                         command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_users));
-                        command.Parameters.Add(new SqlParameter("@Id_playlists", Guid.NewGuid()));
+                        command.Parameters.Add(new SqlParameter("@Id_playlist", Guid.NewGuid()));
                         command.Parameters.Add(new SqlParameter("@Name", Text));
-                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")));
-                        command.Parameters.Add(new SqlParameter("@Last_sync", null));
+                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("@Last_sync", DBNull.Value));
                         command.Parameters.Add(new SqlParameter("@Playlist_image_source", Img));
 
                         number = command.ExecuteNonQuery();

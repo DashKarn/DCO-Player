@@ -162,7 +162,7 @@ namespace DCO_Player
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression_playlist + i.Item1.ToString(), connection);
 
-                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")));
+                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));
 
                         command.ExecuteNonQuery();
                     }
