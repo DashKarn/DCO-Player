@@ -140,25 +140,6 @@ namespace DCO_Player
             if (ToNextTrack() || Next() || Back())
             {
                 string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-               /* string sqlExpression = "SELECT Id_albums, Id_composition, Composition_source, Composition, Artist FROM Album, Artists, Albums where Artists.Id_artists = Albums.Id_artist and Albums.Id_albums = Album.Id_album and Album.Id_album = " + Vars.Id_album;
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sqlExpression, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        if (Vars.Tracklist[Vars.CurrentTrackNumber].Item1 == (int)reader.GetValue(1)) // Проверка на совпадение ключей альбома
-                        {
-                            MainWindow.Instance.CompositionName.Text = reader.GetValue(3).ToString();
-                            MainWindow.Instance.ArtistName.Text = reader.GetValue(4).ToString();
-                            MainWindow.Instance.end.Content = FormatTimeSpan(TimeSpan.FromSeconds(MusicStream.GetTimeOfStream(MusicStream.Stream)));
-                        }
-                    }
-                }*/
-
                 string sqlExpression = "SELECT Id_composition, Name, Artist FROM Songs WHERE Songs.Id_playlist = " + Vars.Id_playlist.ToString();
 
                 using (SqlConnection connection = new SqlConnection(connectionString))

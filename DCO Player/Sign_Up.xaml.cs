@@ -44,7 +44,7 @@ namespace DCO_Player
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
-
+            bool load = true;
             try
             {
                 if (RName.IsMatch(Name.Text))
@@ -153,11 +153,15 @@ namespace DCO_Player
             catch
             {
                 MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
+                load = false;
             }
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            Start.Instance.Close();
+            if (load)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                Start.Instance.Close();
+            }
 
         }
 

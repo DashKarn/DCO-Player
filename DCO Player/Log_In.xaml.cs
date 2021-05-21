@@ -38,7 +38,7 @@ namespace DCO_Player
 
         private void Log_In_Click(object sender, RoutedEventArgs e)
         {
-
+            bool load = true;
             try {
                 if (RLogin.IsMatch(Login.Text))
                 {
@@ -95,18 +95,21 @@ namespace DCO_Player
             catch
             {
                 MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
-
+                load = false;
             }
 
-            Profile.Id_user = id;
-            Profile.name = name;
-            Profile.surname = surname;
-            Profile.createDate = createDate;
-            Profile.imageSrc = imageSrc;
+            if (load)
+            {
+                Profile.Id_user = id;
+                Profile.name = name;
+                Profile.surname = surname;
+                Profile.createDate = createDate;
+                Profile.imageSrc = imageSrc;
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            Start.Instance.Close();
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                Start.Instance.Close();
+            }
         }
     }
 }
