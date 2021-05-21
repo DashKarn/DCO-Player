@@ -47,7 +47,7 @@ namespace DCO_Player
                             albumControl.AlbumName.Text = reader.GetValue(2).ToString(); // Передаем имя Альбома в контрол
                             albumControl.Price.Content = "$" + reader.GetValue(3).ToString(); // Передаем цену в альбом
                             albumControl.price = (int)reader.GetValue(3);
-                            albumControl.Id_albums = (int)reader.GetValue(5);
+                            albumControl.Id_albums = (Guid)reader.GetValue(5);
                             albumControl.Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + reader.GetValue(4).ToString(), UriKind.Absolute)); // Передаем картинку в альбом
 
                             WPS.Children.Add(albumControl); // Добавляем контрол на страницу

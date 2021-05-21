@@ -24,7 +24,7 @@ namespace DCO_Player
     {
         public My_playlists()
         {
-            //InitializeComponent();
+            InitializeComponent();
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             string sqlExpression = "SELECT * FROM Playlists"; // Делаем запрос к плейлистам
@@ -64,13 +64,9 @@ namespace DCO_Player
         {
             new CreatePlaylist().Show();
         }
-<<<<<<< HEAD
-
         private void Sync_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
-=======
->>>>>>> 614100299399cdaad423c1deaae47e9c9aa1208b
     }
 }

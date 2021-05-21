@@ -8,7 +8,6 @@
       d:DesignHeight="688" d:DesignWidth="1320"
       Title="My_playlists">
     <ScrollViewer>
-<<<<<<< HEAD
         <Grid Height="678">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="972*"/>
@@ -39,7 +38,7 @@
                         </DrawingImage>
                     </Image.Source>
                 </Image>
-                <Label MouseDown="Sync_MouseDown" Foreground="#FF00AEFF" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content=" Synchronization playlists" Width="305" Margin="0,10,0,0"/>
+                <Label MouseDown="Sync_MouseDown" Foreground="#FF00AEFF" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content=" synchronization" Width="187" Margin="0,10,0,0"/>
             </StackPanel>
 
             <WrapPanel x:Name="WPM" Margin="0,9,0,0" Grid.Row="1" Grid.ColumnSpan="2">
@@ -51,20 +50,18 @@
                     </Button>
                 </Border>
             </WrapPanel>
+            <Grid>
+                <Label Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">My playlists</Label>
+                <WrapPanel x:Name="WP" Margin="0,48,0,0">
+                    <Border VerticalAlignment="Top" Width="250" Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="3" Margin="64,35,0,29" >
+                        <Button  BorderBrush="{x:Null}" Foreground="{x:Null}" Click="Button_Click">
+                            <Button.Background>
+                                <ImageBrush ImageSource="Images/AddPlaylistNew.png"/>
+                            </Button.Background>
+                        </Button>
+                    </Border>
+                </WrapPanel>
+            </Grid>
         </Grid>
-=======
-    <Grid>
-        <Label Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">My playlists</Label>
-        <WrapPanel x:Name="WPM" Margin="0,48,0,0">
-            <Border VerticalAlignment="Top" Width="250" Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="3" Margin="64,35,0,29" >
-                <Button  BorderBrush="{x:Null}" Foreground="{x:Null}" Click="Button_Click">
-                    <Button.Background>
-                        <ImageBrush ImageSource="Images/AddPlaylistNew.png"/>
-                    </Button.Background>
-                </Button>
-            </Border>
-        </WrapPanel>
-    </Grid>
->>>>>>> 614100299399cdaad423c1deaae47e9c9aa1208b
     </ScrollViewer>
 </Page>

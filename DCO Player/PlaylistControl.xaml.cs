@@ -46,7 +46,7 @@ namespace DCO_Player
                     Playlist playlist = new Playlist(); // Получаем новую страницу с плейлистом
 
                     Vars.files.Clear();
-                    Vars.id_album = Id_playlist;
+                    Vars.id_playlist = Id_playlist;
 
                     while (reader.Read())
                     {
@@ -56,12 +56,12 @@ namespace DCO_Player
 
                             composition.Margin = new Thickness(0, 15, 0, 0);
 
-                            composition.Id_composition = (int)reader.GetValue(1);
+                            composition.Id_composition = (Guid)reader.GetValue(1);
                             composition.CompositionName.Text = reader.GetValue(3).ToString();
                             composition.ArtistName.Text = reader.GetValue(4).ToString();
                             playlist.PlaylistName = PlaylistName;
 
-                            Vars.files.Add(Tuple.Create((int)reader.GetValue(1), reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
+                            Vars.files.Add(Tuple.Create((Guid)reader.GetValue(1), reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
 
                             playlist.WPP.Children.Add(composition); // Добавляем контрол на страницу
                         }

@@ -23,8 +23,8 @@ namespace DCO_Player
     public partial class AlbumControl : UserControl
     {
         public int price { get; set; }
-        public int Id_albums { get; set; }
-        public List<int> purchasedAlbums = new List<int>();
+        public Guid Id_albums { get; set; }
+        public List<Guid> purchasedAlbums = new List<Guid>();
         public bool Correct = true;
 
         public CountryAlbums InstanceCountry { get; set; }
@@ -57,7 +57,7 @@ namespace DCO_Player
                 " (@Id_user, @Id_albums)";
 
             purchasedAlbums = Contr();
-            foreach (int i in purchasedAlbums)
+            foreach (Guid i in purchasedAlbums)
             {
                 if (Id_albums == i)
                 {
@@ -88,9 +88,9 @@ namespace DCO_Player
             
         }
 
-        public List<int> Contr()
+        public List<Guid> Contr()
         {
-            List<int> list = new List<int>();
+            List<Guid> list = new List<Guid>();
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             string sqlExpression = "SELECT Id_albums FROM Purchased_albums Where Purchased_albums.Id_user = " + Profile.Id_users; // Делаем запрос к преобретенным альбомам
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -104,7 +104,7 @@ namespace DCO_Player
                     while (reader.Read())
                     {
                         {
-                            list.Add((int)reader.GetValue(0)); // Если вышел за границы массива то ***** посмотри на этот ******* GetValue(n) и сравни n с количеством столбцов в твоем запросе
+                            list.Add((Guid)reader.GetValue(0)); // Если вышел за границы массива то ***** посмотри на этот ******* GetValue(n) и сравни n с количеством столбцов в твоем запросе
                         }
 
                     }
@@ -131,13 +131,13 @@ namespace DCO_Player
                     int i = 0;
 
                     Vars.files.Clear();
-                    Vars.id_album = Id_albums;
+                    Vars.id_playlist = Id_albums;
 
                     while (reader.Read())
                     {
-                        if(Id_albums == (int)reader.GetValue(0)) // Проверка на совпадение ключей альбома
+                        if(Id_albums == (Guid)reader.GetValue(0)) // Проверка на совпадение ключей альбома
                         {
-                            if (Id_albums == (int)reader.GetValue(0) && i < 1) // Ставим флаг для единоразового исполнения данной операции
+                            if (Id_albums == (Guid)reader.GetValue(0) && i < 1) // Ставим флаг для единоразового исполнения данной операции
                             {
                                 album.AlbumImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + reader.GetValue(5).ToString(), UriKind.Absolute));
                                 album.Description.Text = reader.GetValue(7).ToString();
@@ -149,11 +149,11 @@ namespace DCO_Player
 
                             composition.Margin = new Thickness(0, 15, 0, 0);
 
-                            composition.Id_composition = (int)reader.GetValue(1);
+                            composition.Id_composition = (Guid)reader.GetValue(1);
                             composition.CompositionName.Text = reader.GetValue(3).ToString();
                             composition.ArtistName.Text = reader.GetValue(4).ToString();
 
-                            Vars.files.Add(Tuple.Create((int)reader.GetValue(1), Environment.CurrentDirectory + reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
+                            Vars.files.Add(Tuple.Create((Guid)reader.GetValue(1), Environment.CurrentDirectory + reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
 
                             album.WPA.Children.Add(composition); // Добавляем контрол на страницу
                         }

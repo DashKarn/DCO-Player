@@ -150,7 +150,7 @@ namespace DCO_Player
         public Radio radioPage;
         public My_playlists MPPage;
         public Subscribe SubPage;
-        public Albums AlbumsPage;
+       // public Albums AlbumsPage;
         public Settings SettingsPage;
 
         public MainWindow()
@@ -164,7 +164,7 @@ namespace DCO_Player
             Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;   // Прячем гребаную панель навигации
 
             AccountName.Text = Profile.name + " " + Profile.surname;        // Имя и фамилия в профиле
-            if(Profile.imageSrc != "")
+            if(Profile.imageSrc != "" && Profile.imageSrc != null)
             {
                 AccountImage.ImageSource = new BitmapImage(new Uri(Environment.CurrentDirectory + Profile.imageSrc, UriKind.Absolute)); // Изображение профиля
             }
@@ -172,7 +172,7 @@ namespace DCO_Player
             radioPage = new Radio();                                        // Новые образы страниц, для загрузки их вместе с окном
             MPPage = new My_playlists();
             SubPage = new Subscribe();
-            AlbumsPage = new Albums();
+           // AlbumsPage = new Albums();
             SettingsPage = new Settings();
 
             Frame.Navigate(SubPage);

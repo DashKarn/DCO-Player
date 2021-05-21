@@ -47,46 +47,23 @@ namespace DCO_Player
                 }
                 else
                 {
-                    MessageBox.Show("Поле не должно быть пустым и должно содержать имя почты");
+                    MessageBox.Show("Поле должно содержать правильное имя почты");
                 }
 
                 if (RPassword.IsMatch(CPassword.Password))
                 {
-                    connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "SELECT Password FROM Users WHERE Login = '" + login + "'";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            reader.Read();
-                            password = reader.GetValue(0).ToString();
-                            reader.Close();
-                        }
-                    }
-
-                    if (CPassword.Password == password)
-                    {
-                        BPassword = true;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Скорее всего у вас неправильный пароль");
-                        password = null;
-                    }
+                    BPassword = true;
+                    password = CPassword.Password;
                 }
                 else
                 {
-                    MessageBox.Show("Поле не должно быть пустым и должно содержать не менее 9 символов включая спецсимволы, буквы латинского алфавита, числа" +
-                        "");
+                    MessageBox.Show("Пароль не соответсвует правилам пароля");
                 }
 
                 if (BLogin && BPassword)
                 {
                     connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "SELECT * FROM Users WHERE Login = " + login;
+                    string sqlExpression = "SELECT * FROM Users WHERE Login = '" + login + "'";
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
@@ -112,15 +89,7 @@ namespace DCO_Player
                             MessageBox.Show("Такого пользователя нет!");
                     }
 
-                    Profile.Id_users = id;
-                    Profile.name = name;
-                    Profile.surname = surname;
-                    Profile.createDate = createDate;
-                    Profile.imageSrc = imageSrc;
 
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    Start.Instance.Close();
                 }
             }
             catch
@@ -128,7 +97,16 @@ namespace DCO_Player
                 MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
 
             }
-            
+
+            Profile.Id_users = id;
+            Profile.name = name;
+            Profile.surname = surname;
+            Profile.createDate = createDate;
+            Profile.imageSrc = imageSrc;
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Start.Instance.Close();
         }
     }
 }

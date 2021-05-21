@@ -241,13 +241,10 @@ namespace DCO_Player
         {
             Close();
         }
-<<<<<<< HEAD
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
 
         }
-=======
->>>>>>> 614100299399cdaad423c1deaae47e9c9aa1208b
     }
 }

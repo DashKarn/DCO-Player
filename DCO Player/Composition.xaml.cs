@@ -23,7 +23,7 @@ namespace DCO_Player
     /// </summary>
     public partial class Composition : UserControl
     {
-        public int Id_composition { get; set; }
+        public Guid Id_composition { get; set; }
 
         ComboBox Playlists = null;
 
@@ -47,7 +47,7 @@ namespace DCO_Player
             if (Vars.files.Count != 0)
             {
                 Vars.Tracklist = Vars.files;
-                Vars.Id_album = Vars.id_album;     
+                Vars.Id_playlist= Vars.id_playlist;     
                 int i = 0;
                 foreach(var a in Vars.Tracklist)
                 {

@@ -12,13 +12,13 @@
         <StackPanel Margin="31,63,31,235">
             <StackPanel>
                 <StackPanel>
-                    <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">LOGIN (MAIL)</Label>
+                    <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">LOGIN (EMAIL)</Label>
                     <Border BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <TextBox x:Name="Login" Text="baranchuk050420@gmail.com" Style="{StaticResource Log}" MaxLength="45" CaretBrush="#AFAFAF" Foreground="#AFAFAF" Width="286" Height="31" FontFamily="Calibri" FontSize="14"/>
+                        <TextBox x:Name="Login" Text="dasha@gmail.com" Style="{StaticResource Log}" MaxLength="45" CaretBrush="#AFAFAF" Foreground="#AFAFAF" Width="286" Height="31" FontFamily="Calibri" FontSize="14"/>
                     </Border>
                 </StackPanel>
                 <StackPanel Margin="0,5,0,0">
-                    <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">PASSWORD @baranchuk</Label>
+                    <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">PASSWORD 123456qwerty!</Label>
                     <Border BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
                         <PasswordBox  PasswordChar="•" x:Name="CPassword" Style="{StaticResource PasswordBox}" MaxLength="45" CaretBrush="#AFAFAF" Foreground="#AFAFAF" Width="286" Height="31" FontFamily="Calibri" FontSize="14"/>
                     </Border>

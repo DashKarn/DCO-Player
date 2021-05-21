@@ -147,11 +147,6 @@ namespace DCO_Player
                         //MessageBox.Show("Добавлено объектов: {0}", number.ToString());
                     }
 
-
-
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    Start.Instance.Close();
                 }
 
             }
@@ -159,6 +154,10 @@ namespace DCO_Player
             {
                 MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
             }
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            Start.Instance.Close();
 
         }
 
