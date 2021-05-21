@@ -81,7 +81,7 @@ namespace DCO_Player
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpression = "SELECT Name, Id_playlist FROM Playlists, Users WHERE Users.Id_user = Playlists.Id_user and Users.Id_user = " + Profile.Id_users; // Делаем запрос к плейлистам
+            string sqlExpression = "SELECT Name, Id_playlist FROM Playlists, Users WHERE Users.Id_user = Playlists.Id_user and Users.Id_user = " + Profile.Id_user; // Делаем запрос к плейлистам
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

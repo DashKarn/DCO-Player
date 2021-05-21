@@ -220,7 +220,7 @@ namespace DCO_Player
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_users));
+                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
                         command.Parameters.Add(new SqlParameter("@Id_playlist", Guid.NewGuid()));
                         command.Parameters.Add(new SqlParameter("@Name", Text));
                         command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));

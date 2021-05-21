@@ -35,7 +35,7 @@ namespace DCO_Player
             CreateDate.Content = Profile.createDate;
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpressionFirst = "select Count(*) from Purchased_albums where Purchased_albums.Id_user = " + Profile.Id_users; // Делаем запрос 
+            string sqlExpressionFirst = "select Count(*) from Purchased_albums where Purchased_albums.Id_user = " + Profile.Id_user; // Делаем запрос 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -52,7 +52,7 @@ namespace DCO_Player
                 reader.Close();
             }
 
-            sqlExpressionFirst = "SELECT top(1) Artist, Count(Artist), Id_country [Count] FROM Artists, Albums, Purchased_albums Where Artists.Id_artists = Albums.Id_artist and Purchased_albums.Id_albums = Albums.Id_albums and Purchased_albums.Id_user = " + Profile.Id_users + " GROUP BY Artist, Id_country ORDER BY Count(Artist) asc"; // Делаем запрос 
+            sqlExpressionFirst = "SELECT top(1) Artist, Count(Artist), Id_country [Count] FROM Artists, Albums, Purchased_albums Where Artists.Id_artists = Albums.Id_artist and Purchased_albums.Id_albums = Albums.Id_albums and Purchased_albums.Id_user = " + Profile.Id_user + " GROUP BY Artist, Id_country ORDER BY Count(Artist) asc"; // Делаем запрос 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -70,7 +70,7 @@ namespace DCO_Player
                 reader.Close();
             }
 
-            sqlExpressionFirst = "select isnull(sum(Duration),0) from Albums, Purchased_albums where Albums.Id_albums = Purchased_albums.Id_albums and Purchased_albums.Id_user = " + Profile.Id_users; // Делаем запрос 
+            sqlExpressionFirst = "select isnull(sum(Duration),0) from Albums, Purchased_albums where Albums.Id_albums = Purchased_albums.Id_albums and Purchased_albums.Id_user = " + Profile.Id_user; // Делаем запрос 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -88,7 +88,7 @@ namespace DCO_Player
                 reader.Close();
             }
 
-            sqlExpressionFirst = "select Count(*) from Playlists where Playlists.Id_user = " + Profile.Id_users; // Делаем запрос 
+            sqlExpressionFirst = "select Count(*) from Playlists where Playlists.Id_user = " + Profile.Id_user; // Делаем запрос 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

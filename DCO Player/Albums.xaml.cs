@@ -28,7 +28,7 @@ namespace DCO_Player
             InitializeComponent();
 
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpression = "SELECT Id_artist, Artist, Album, Price, Album_image_source, Albums.Id_albums FROM Artists, Albums, Purchased_albums Where Artists.Id_artists = Albums.Id_artist and Purchased_albums.Id_albums = Albums.Id_albums and Purchased_albums.Id_user = " + Profile.Id_users; // Делаем запрос к исполнителям
+            string sqlExpression = "SELECT Id_artist, Artist, Album, Price, Album_image_source, Albums.Id_albums FROM Artists, Albums, Purchased_albums Where Artists.Id_artists = Albums.Id_artist and Purchased_albums.Id_albums = Albums.Id_albums and Purchased_albums.Id_user = " + Profile.Id_user; // Делаем запрос к исполнителям
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

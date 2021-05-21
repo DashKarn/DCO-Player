@@ -34,11 +34,12 @@ namespace DCO_Player
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpressionFirst = "SELECT Id_playlist, Id_song, Path, Name, Artist FROM Playlist_songs, Playlists, Songs WHERE Playlists.Id_playlists = Playlist_songs.Id_playlist and Playlist_songs.Id_song = Songs.Id_song  and Playlists.Id_user = " + Profile.Id_users; // Делаем запрос к исполнителям
+            string sqlExpressionFirst = "SELECT Id_playlist, Id_song, Path, Name, Artist FROM Playlist_songs, Playlists, Songs WHERE Playlists.Id_playlist = Playlist_songs.Id_playlist and Playlist_songs.Id_song = Songs.Id_song  and Playlists.Id_user = @Id_user"; // Делаем запрос к исполнителям
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlExpressionFirst, connection);
+                command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.HasRows) // если есть данные

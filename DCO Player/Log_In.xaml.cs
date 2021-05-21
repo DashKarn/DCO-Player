@@ -98,7 +98,7 @@ namespace DCO_Player
 
             }
 
-            Profile.Id_users = id;
+            Profile.Id_user = id;
             Profile.name = name;
             Profile.surname = surname;
             Profile.createDate = createDate;

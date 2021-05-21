@@ -72,7 +72,7 @@ namespace DCO_Player
                     connection.Open();
                     SqlCommand command = new SqlCommand(sqlExpression, connection);
 
-                    command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_users));
+                    command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
                     command.Parameters.Add(new SqlParameter("@Id_albums", Id_albums));
 
                     int number = command.ExecuteNonQuery();
@@ -92,7 +92,7 @@ namespace DCO_Player
         {
             List<Guid> list = new List<Guid>();
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpression = "SELECT Id_albums FROM Purchased_albums Where Purchased_albums.Id_user = " + Profile.Id_users; // Делаем запрос к преобретенным альбомам
+            string sqlExpression = "SELECT Id_albums FROM Purchased_albums Where Purchased_albums.Id_user = " + Profile.Id_user; // Делаем запрос к преобретенным альбомам
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

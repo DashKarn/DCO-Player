@@ -121,7 +121,7 @@ namespace DCO_Player
 
                     Random rd = new Random();
 
-                    Profile.Id_users = Guid.NewGuid();
+                    Profile.Id_user = Guid.NewGuid();
                     Profile.name = name;
                     Profile.surname = surname;
                     Profile.createDate = createDate;
@@ -135,7 +135,7 @@ namespace DCO_Player
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_users));
+                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
                         command.Parameters.Add(new SqlParameter("@Name", name));
                         command.Parameters.Add(new SqlParameter("@Surname", surname));
                         command.Parameters.Add(new SqlParameter("@Login", login));

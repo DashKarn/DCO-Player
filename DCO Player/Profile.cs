@@ -8,7 +8,7 @@ namespace DCO_Player
 {
     static class Profile
     {
-        public static Guid Id_users { get; set; }        // Идентификатор 
+        public static Guid Id_user { get; set; }        // Идентификатор 
         public static string name { get; set; }         // Имя 
         public static string surname { get; set; }      // Фамилия 
         public static string createDate { get; set; }   // Дата регистрации
