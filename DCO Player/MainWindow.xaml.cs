@@ -147,11 +147,11 @@ namespace DCO_Player
 
         public static MainWindow Instance { get; private set; }
 
-        public Radio radioPage;
-        public My_playlists MPPage;
-        public Subscribe SubPage;
+        public static Radio radioPage;
+        public static My_playlists MPPage;
+        public static Subscribe SubPage;
        // public Albums AlbumsPage;
-        public Settings SettingsPage;
+        public static Settings SettingsPage;
 
         public MainWindow()
         {
@@ -161,7 +161,7 @@ namespace DCO_Player
             WindowState = WindowState.Maximized;                            // При запуске состояние окна - на полный экран
             SourceInitialized += MainWindow_SourceInitialized; 
 
-            Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;   // Прячем гребаную панель навигации
+            Frame.NavigationUIVisibility = NavigationUIVisibility.Hidden;   // Прячем панель навигации
 
             AccountName.Text = Profile.name + " " + Profile.surname;        // Имя и фамилия в профиле
             if(Profile.imageSrc != "" && Profile.imageSrc != null)
@@ -175,7 +175,7 @@ namespace DCO_Player
            // AlbumsPage = new Albums();
             SettingsPage = new Settings();
 
-            Frame.Navigate(SubPage);
+            Frame.Navigate(MPPage);
 
             MusicStream.InitBass(MusicStream.HZ);
             
@@ -251,7 +251,7 @@ namespace DCO_Player
             RadioBrush.Brush = RadioTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E46E62"));
             PlaylistsBrush.Brush = PlaylistsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             AlbumsBrush.Brush = AlbumsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            Frame.NavigationService.Navigate(radioPage);
+            Frame.Navigate(new Radio());
         }
 
         // Событие перехода к странице плейлистов

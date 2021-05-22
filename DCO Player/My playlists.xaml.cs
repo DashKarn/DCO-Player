@@ -55,14 +55,13 @@ namespace DCO_Player
                     }
                 }
                 reader.Close();
-            }
-
-
+            }                       
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new CreatePlaylist().Show();
+           // NavigationService.Navigate(new My_playlists());
         }
         private void Sync_MouseDown(object sender, MouseButtonEventArgs e)
         {

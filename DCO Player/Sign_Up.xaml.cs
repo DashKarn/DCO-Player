@@ -17,17 +17,18 @@ namespace DCO_Player
     {
         string connectionString;
 
+        Guid Id_user = Guid.NewGuid();
         string name { get; set; }
         string surname { get; set; }
         string login { get; set; }
         string password { get; set; }
-        string createDate = DateTime.Now.ToString("d");
+
+        DateTime createDate = DateTime.Now;
         string imageSrc { get; set; }
 
         Regex RName = new Regex("^([А-я]|[A-z]){1,19}$");
         Regex RSurname = new Regex("^([А-я]|[A-z]){1,19}$");
         Regex RLogin = new Regex(@"(\w+@[a-z_]+?\.[a-z]{2,6})");
-        //Regex RPassword = new Regex(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%_*\-#?&])[A-Za-z\d@$!%_*\-#?&]{8,}$");
         Regex RPassword = new Regex(@"[A-Za-z\d@$!%_*\-#?&]{8,}$");
 
         bool BName = false;
@@ -44,9 +45,8 @@ namespace DCO_Player
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
-            bool load = true;
-            try
-            {
+            bool load = false;
+
                 if (RName.IsMatch(Name.Text))
                 {
                     BName = true;
@@ -92,7 +92,7 @@ namespace DCO_Player
                     }
                     else
                     {
-                        MessageBox.Show("Неверный пароль");
+                        MessageBox.Show("Пароли не совпадают");
                     }
                 }
                 else
@@ -100,7 +100,9 @@ namespace DCO_Player
                     MessageBox.Show("Пароль должен содержать не менее 8 символов, включать спецсимволы, загланые буквы, числа");
                 }
 
-                if (BName && BSurname && BLogin && BPassword)
+            if (BName && BSurname && BLogin && BPassword)
+            {
+                try
                 {
                     if (cb != null)
                     {
@@ -119,45 +121,63 @@ namespace DCO_Player
                         imageSrc = "";
                     }
 
-                    Random rd = new Random();
-
-                    Profile.Id_user = Guid.NewGuid();
-                    Profile.name = name;
-                    Profile.surname = surname;
-                    Profile.createDate = createDate;
-                    Profile.imageSrc = imageSrc;
-
                     connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "INSERT INTO Users (Id_user, Name, Surname, Login, Password, Create_date, User_image_source) VALUES" +
-                        " (@Id_user, @Name, @Surname, @Login, @Password, @Create_date, @User_image_source)";
+                    string sqlExpression = "SELECT * FROM Users WHERE Login = '" + login + "'";
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression, connection);
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (reader.HasRows) // если есть данные
+                        {
+                            MessageBox.Show("Пользователь " + login + "уже существует");
+                            load = false;
+                            throw new Exception();
+                        }
+                    }
+
+                    sqlExpression = "INSERT INTO Users (Id_user, Name, Surname, Login, Password, Create_date, User_image_source, Subscription_date, N_GB, GB_date) VALUES" +
+                    " (@Id_user, @Name, @Surname, @Login, @Password, @Create_date, @User_image_source, @Subscription_date, @N_GB, @GB_date)";
 
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
                         connection.Open();
                         SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
+                        command.Parameters.Add(new SqlParameter("@Id_user", Id_user));
                         command.Parameters.Add(new SqlParameter("@Name", name));
                         command.Parameters.Add(new SqlParameter("@Surname", surname));
                         command.Parameters.Add(new SqlParameter("@Login", login));
                         command.Parameters.Add(new SqlParameter("@Password", password));
-                        command.Parameters.Add(new SqlParameter("@Create_date", createDate));
+                        command.Parameters.Add(new SqlParameter("@Create_date", createDate.ToString("d")));
                         command.Parameters.Add(new SqlParameter("@User_image_source", imageSrc));
+                        command.Parameters.Add(new SqlParameter("@Subscription_date", DateTime.MinValue.ToString("d")));
+                        command.Parameters.Add(new SqlParameter("@N_GB", "0"));
+                        command.Parameters.Add(new SqlParameter("@GB_date", DateTime.MinValue.ToString("d")));
 
                         int number = command.ExecuteNonQuery();
                         //MessageBox.Show("Добавлено объектов: {0}", number.ToString());
                     }
 
+                    load = true;
                 }
-
-            }
-            catch
-            {
-                MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
-                load = false;
+                catch
+                {
+                    MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
+                    load = false;
+                }
             }
 
             if (load)
             {
+                Profile.Id_user = Id_user;
+                Profile.name = name;
+                Profile.surname = surname;
+                Profile.createDate = createDate;
+                Profile.imageSrc = imageSrc;
+                Profile.subscriptionDate = DateTime.MinValue;
+                Profile.gbs = 0;
+                Profile.GBDate = DateTime.MinValue;
+
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
                 Start.Instance.Close();

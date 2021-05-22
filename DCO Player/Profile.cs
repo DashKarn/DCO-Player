@@ -11,8 +11,11 @@ namespace DCO_Player
         public static Guid Id_user { get; set; }        // Идентификатор 
         public static string name { get; set; }         // Имя 
         public static string surname { get; set; }      // Фамилия 
-        public static string createDate { get; set; }   // Дата регистрации
+        public static DateTime createDate { get; set; }   // Дата регистрации
         public static string imageSrc { get; set; }     // Аватар
+        public static DateTime subscriptionDate { get; set; }   // Дата окончания подписки
+        public static int gbs { get; set; }   // Количество купленных гигабайт
+        public static DateTime GBDate { get; set; }   // Дата окончания купленного места
 
     }
 }
