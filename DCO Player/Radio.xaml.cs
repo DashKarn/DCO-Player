@@ -6,7 +6,9 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.Windows.Threading;
+using System.Text.RegularExpressions;
+using System.Net;
+using System.Text;
 
 namespace DCO_Player
 {
@@ -26,8 +28,53 @@ namespace DCO_Player
 
         public List<Compositions> Composition(string page, RadioControl RC)
         {
+            string str, time = "", artist = "", track = "";
+            MatchCollection times;
+            MatchCollection names;
             List<Compositions> compositions = new List<Compositions>();
 
+            try
+            {
+                WebClient web = new WebClient();    // Веб клиент, для получения
+                web.Encoding = Encoding.UTF8;       // разметки страницы в формате
+                str = web.DownloadString(page);     // utf-8
+
+                Regex First = new Regex(@"<td>[\d]{2}:[\d]{2}<\/td>.{1,120}<\/span>");  // Регулярка для получения необработанных записей треков из html
+                Regex Second = new Regex(@"[\d]{2}:[\d]{2}");                           // Регулярка для получения времени из списка необработанных записей
+                Regex Third = new Regex(@"(?<=out"">).{1,70}(?= - )");                      // Регулярка для получения имени исполнителя из списка необработанных записей
+                Regex Fourth = new Regex(@"(?<= - ).{1,70}(?=<\/span>)");                    // Регулярка для получения имени композиции из списка необработанных записей
+
+                MatchCollection firstMatches = First.Matches(str);
+                foreach (Match match in firstMatches)
+                {
+                    times = Second.Matches(match.Value);    // Получаем время композиции из списка необработанных
+                    foreach (Match t in times)              // треков, путем получения элемента и дальнейшего
+                        time = t.Value;                     // прогона через цикл и получения времени
+
+                    names = Third.Matches(match.Value);     // Получаем исполнителя композиции из списка необработанных
+                    foreach (Match n in names)              // треков, путем получения элемента и дальнейшего
+                        artist = n.Value;                   // прогона через цикл и получения исполнителя
+
+                    names = Fourth.Matches(match.Value);    // Получаем имя композиции из списка необработанных
+                    foreach (Match n in names)              // треков, путем получения элемента и дальнейшего
+                        track = n.Value;                    // прогона через цикл и получения имени
+
+                    compositions.Add(new Compositions()
+                    {
+                        Time = time,
+                        Artist = artist,
+                        Track = track
+                    });
+                }
+                RC.CompositionName.Text = compositions[0].Track;
+                RC.ArtistName.Text = compositions[0].Artist;
+
+
+            }
+            catch
+            {
+                //MessageBox.Show("Отстутствует подключение к сети интернет");
+            }
             return compositions;
         }
 

@@ -77,6 +77,7 @@ namespace DCO_Player
                             reader.Read();
                             if (reader.GetValue(4).ToString() == password)
                             {
+                                MessageBox.Show("1");
                                 id = (Guid)reader.GetValue(0);
                                 name = reader.GetValue(1).ToString();
                                 surname = reader.GetValue(2).ToString();
@@ -85,6 +86,8 @@ namespace DCO_Player
                                 subDate = (DateTime)reader.GetValue(7);
                                 gbs = (int)reader.GetValue(8);
                                 gbDate = (DateTime)reader.GetValue(9);
+
+                                load = true;
                             }
                             else
                             {
@@ -93,7 +96,6 @@ namespace DCO_Player
                             }
 
                             reader.Close();
-                            load = true;
                         }
                         else
                         {
@@ -102,9 +104,10 @@ namespace DCO_Player
                         }
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
                     MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
+                    MessageBox.Show(ex.Message);
                     load = false;
                 }
             }
