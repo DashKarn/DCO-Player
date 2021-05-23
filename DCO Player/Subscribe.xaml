@@ -12,10 +12,10 @@
         <ScrollViewer Margin="0,190,0,0">
             <Grid>
                 <StackPanel>
-                    <Grid Height="331">
+                    <Grid>
                         <Label Margin="64,13,10,273" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">Subscribtion</Label>
-                        <StackPanel Orientation="Horizontal">
-                            <Border Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,70">
+                        <WrapPanel Orientation="Horizontal">
+                            <Border Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel>
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="1 Month"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -23,15 +23,15 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,70">
+                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220" >
                                 <StackPanel>
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="3 Month"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
-                                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#F0F0F0" FontFamily="Calibri" FontSize="16" FontWeight="Bold"   Content="Buy" Height="29" VerticalAlignment="Bottom"/>
+                                        <Button Name="ThreeMonth"  Foreground="#F0F0F0" FontFamily="Calibri" FontSize="16" FontWeight="Bold"   Content="Buy" Height="29" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="{x:Null}"/>
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,70">
+                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel>
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="6 Month"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -39,7 +39,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,70">
+                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel>
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="12 Month"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -47,12 +47,12 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                        </StackPanel>
+                        </WrapPanel>
                     </Grid>
                     <Grid>
                         <Label Margin="64,13,10,430" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">Space</Label>
-                        <StackPanel Orientation="Horizontal">
-                            <Border Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,224" Width="222">
+                        <WrapPanel Orientation="Horizontal">
+                            <Border Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel>
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="1 Gb"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -60,7 +60,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,224" Width="222">
+                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel>
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="3 Gb"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -68,7 +68,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,224">
+                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel Width="219">
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="6 Gb"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -76,7 +76,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60,50,224">
+                            <Border  Background="#afafaf" BorderThickness="1" BorderBrush="#303030" CornerRadius="3" Margin="50,60" Height="200" Width="220">
                                 <StackPanel Width="228">
                                     <Label Margin="60,33,60,0" HorizontalAlignment="Center" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="12 Gb"/>
                                     <Border Margin="0,60,77,0" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#0071E3" Width="60" Height="29">
@@ -84,48 +84,38 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                        </StackPanel>
+                        </WrapPanel>
                     </Grid>
                 </StackPanel>
-                
+
             </Grid>
         </ScrollViewer>
         <Grid Height="190" VerticalAlignment="Top" Background="#202020" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="61*"/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="69*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3"/>
-                <ColumnDefinition Width="3*"></ColumnDefinition>
-                <ColumnDefinition Width="190*"/>
+
                 <ColumnDefinition Width="1124*"/>
             </Grid.ColumnDefinitions>
-            <Label Margin="64,13,10,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Grid.Column="2">Subscribe</Label>
-            <StackPanel Grid.Column="2" Margin="64,64,0,0" >
-                <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">SUBSCRIPTION</Label>
-                <WrapPanel x:Name="Subscription" Height="92">
-                    <Border Margin="0,0,5,5" BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <ToggleButton x:Name="OneMonth" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="12,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >1 Month</ToggleButton>
-                    </Border>
-                    <Border Margin="0,0,5,5" BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <ToggleButton x:Name="SixMonth" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="12,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >6 Month</ToggleButton>
-                    </Border>
-                    <Border Margin="0,0,5,5" BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <ToggleButton x:Name="TwelveMonth" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="12,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >12 Month</ToggleButton>
-                    </Border>
-                </WrapPanel>
+            <Label Margin="64,13,10,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Grid.Row="0">Subscribe</Label>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Label Margin="64,13,0,0" Width="110" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="Subscribe"/>
+                <TextBlock Margin="34,18,0,0" Width="150" Foreground="#FFE39B00" TextDecorations="underline" FontFamily="Calibri" FontSize="25" FontWeight="Bold"> 12.12.2021</TextBlock>
+
+
             </StackPanel>
-            <StackPanel Grid.Column="3" Margin="20,64,994,0" >
-                <Label Foreground="#7E7E7E" FontFamily="Century Gothic" FontSize="10" Height="22">SPACE</Label>
-                <WrapPanel x:Name="Space" Height="92">
-                    <Border Margin="0,0,5,5" BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <ToggleButton x:Name="OneGb" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="12,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >1 Gb</ToggleButton>
-                    </Border>
-                    <Border Margin="0,0,5,5" BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <ToggleButton x:Name="ThreeGb" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="12,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >3 Gb</ToggleButton>
-                    </Border>
-                    <Border Margin="0,0,5,5" BorderBrush="#FFD0D0D0" BorderThickness="1" CornerRadius="3">
-                        <ToggleButton x:Name="FiveGb" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="12,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >5 Gb</ToggleButton>
-                    </Border>
-                </WrapPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Label Margin="64,13,0,0" Width="75" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="Space"/>
+                <TextBlock Margin="34,18,0,0" Width="70" Foreground="#FFE39B00" TextDecorations="underline" FontFamily="Calibri" FontSize="25" FontWeight="Bold"> 3 GB</TextBlock>
+                <Label Margin="15,13,0,0" Width="35" Foreground="white" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content="to"/>
+                <TextBlock Margin="34,18,0,0" Width="150" Foreground="#FFE39B00" TextDecorations="underline" FontFamily="Calibri" FontSize="25" FontWeight="Bold"> 12.12.2021</TextBlock>
+
+
             </StackPanel>
+
 
         </Grid>
     </Grid>

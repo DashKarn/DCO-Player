@@ -172,7 +172,6 @@ namespace DCO_Player
             radioPage = new Radio();                                        // Новые образы страниц, для загрузки их вместе с окном
             MPPage = new My_playlists();
             SubPage = new Subscribe();
-           // AlbumsPage = new Albums();
             SettingsPage = new Settings();
             Frame.Navigate(MPPage);
             
@@ -248,7 +247,6 @@ namespace DCO_Player
             SubscribeBrush.Brush = SubscribeTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             RadioBrush.Brush = RadioTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E46E62"));
             PlaylistsBrush.Brush = PlaylistsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            AlbumsBrush.Brush = AlbumsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             Frame.Navigate(new Radio());
         }
 
@@ -258,25 +256,13 @@ namespace DCO_Player
             SubscribeBrush.Brush = SubscribeTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             PlaylistsBrush.Brush = PlaylistsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E46E62"));
             RadioBrush.Brush = RadioTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            AlbumsBrush.Brush = AlbumsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             Frame.Navigate(new My_playlists());
-        }
-
-        // Событие перехода к альбомам
-        private void Albums_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            SubscribeBrush.Brush = SubscribeTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            AlbumsBrush.Brush = AlbumsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E46E62"));
-            PlaylistsBrush.Brush = PlaylistsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            RadioBrush.Brush = RadioTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            Frame.Navigate(new Albums());
         }
 
         // Подписки
         private void Subscribe_MouseDown(object sender, MouseButtonEventArgs e)
         {
             SubscribeBrush.Brush = SubscribeTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E46E62"));
-            AlbumsBrush.Brush = AlbumsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             PlaylistsBrush.Brush = PlaylistsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             RadioBrush.Brush = RadioTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             Frame.Navigate(SubPage);

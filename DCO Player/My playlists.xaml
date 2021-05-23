@@ -20,8 +20,8 @@
 
             <Label Margin="64,13,685,10" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">My playlists</Label>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.RowSpan="1" Margin="6,0,-6,0" Grid.ColumnSpan="2">
-                <Image Name="Sync"  Width="24" Margin="0,5,0,0" MouseDown="Sync_MouseDown" RenderTransformOrigin="0.5,0.789">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.RowSpan="1" Margin="0,10,-6,0">
+                <Image Name="Sync"  Width="16" Margin="0,5,0,14" MouseDown="Sync_MouseDown" RenderTransformOrigin="0.5,0.789">
                     <Image.Source>
                         <DrawingImage>
                             <DrawingImage.Drawing>
@@ -38,10 +38,10 @@
                         </DrawingImage>
                     </Image.Source>
                 </Image>
-                <Label MouseDown="Sync_MouseDown" Foreground="#FF00AEFF" FontFamily="Calibri" FontSize="25" FontWeight="Bold" Content=" synchronization" Width="187" Margin="0,10,0,0"/>
+                <Label MouseDown="Sync_MouseDown" Foreground="#FF00AEFF" FontFamily="Calibri" FontSize="18" FontWeight="Bold" Content=" synchronization" Width="187" Margin="0,5,0,10"/>
             </StackPanel>
 
-            <WrapPanel x:Name="WPM" Margin="0,9,0,0" Grid.Row="1" Grid.ColumnSpan="2">
+            <WrapPanel x:Name="WPM" Grid.Row="1" Grid.ColumnSpan="2">
                 <Border VerticalAlignment="Top" Width="250" Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="3" Margin="64,35,0,29" >
                     <Button  BorderBrush="{x:Null}" Foreground="{x:Null}" Click="Button_Click">
                         <Button.Background>
@@ -50,17 +50,9 @@
                     </Button>
                 </Border>
             </WrapPanel>
+            
             <Grid>
                 <Label Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">My playlists</Label>
-                <WrapPanel x:Name="WP" Margin="0,48,0,0">
-                    <Border VerticalAlignment="Top" Width="250" Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="3" Margin="64,35,0,29" >
-                        <Button  BorderBrush="{x:Null}" Foreground="{x:Null}" Click="Button_Click">
-                            <Button.Background>
-                                <ImageBrush ImageSource="Images/AddPlaylistNew.png"/>
-                            </Button.Background>
-                        </Button>
-                    </Border>
-                </WrapPanel>
             </Grid>
         </Grid>
     </ScrollViewer>
