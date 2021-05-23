@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Data.SqlClient;
 
 
 namespace DCO_Player
@@ -13,8 +13,6 @@ namespace DCO_Player
     /// </summary>
     public partial class Log_In : Page
     {
-        string connectionString;
-
         Guid id { get; set; }
         string name { get; set; }
         string surname { get; set; }
@@ -40,6 +38,8 @@ namespace DCO_Player
 
         private void Log_In_Click(object sender, RoutedEventArgs e)
         {
+            Firebase.Init();
+
             bool load = false;
             if (RLogin.IsMatch(Login.Text))
             {
@@ -65,34 +65,37 @@ namespace DCO_Player
             {
                 try
                 {
-                    connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "SELECT * FROM Users WHERE Login = '" + login + "'";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            reader.Read();
-                            if (reader.GetValue(4).ToString() == password)
-                            {
-                                id = (Guid)reader.GetValue(0);
-                                name = reader.GetValue(1).ToString();
-                                surname = reader.GetValue(2).ToString();
-                                createDate = (DateTime)reader.GetValue(5);
-                                imageSrc = reader.GetValue(6).ToString();
-                                subDate = (DateTime)reader.GetValue(7);
-                                gbs = (int)reader.GetValue(8);
-                                gbDate = (DateTime)reader.GetValue(9);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Неправильный пароль!");
-                                load = false;
-                            }
+                    SqlDataReader reader = Database.GetUser(login);
 
-                            reader.Close();
+                    if (reader.HasRows) // если есть данные
+                    {
+                        reader.Read();
+                        if (reader.GetValue(4).ToString() == password)
+                        {
+                            id = (Guid)reader.GetValue(0);
+                            name = reader.GetValue(1).ToString();
+                            surname = reader.GetValue(2).ToString();
+                            createDate = (DateTime)reader.GetValue(5);
+                            imageSrc = reader.GetValue(6).ToString();
+                            subDate = (DateTime)reader.GetValue(7);
+                            gbs = (int)reader.GetValue(8);
+                            gbDate = (DateTime)reader.GetValue(9);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Неправильный пароль!");
+                            load = false;
+                        }
+
+                        reader.Close();
+                        load = true;
+                    }
+                    else
+                    {
+                        if (Firebase.CheckUser(login))
+                        {
+                            Firebase.GetUser(login);
+                            Database.InsertUser();
                             load = true;
                         }
                         else
@@ -101,6 +104,7 @@ namespace DCO_Player
                             load = false;
                         }
                     }
+
                 }
                 catch
                 {
@@ -115,6 +119,8 @@ namespace DCO_Player
                 Profile.Id_user = id;
                 Profile.name = name;
                 Profile.surname = surname;
+                Profile.login = login;
+                Profile.password = password;
                 Profile.createDate = createDate;
                 Profile.imageSrc = imageSrc;
                 Profile.subscriptionDate = subDate;

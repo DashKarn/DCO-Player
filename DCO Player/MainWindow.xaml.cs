@@ -174,11 +174,9 @@ namespace DCO_Player
             SubPage = new Subscribe();
            // AlbumsPage = new Albums();
             SettingsPage = new Settings();
-
             Frame.Navigate(MPPage);
-
-            MusicStream.InitBass(MusicStream.HZ);
             
+            MusicStream.InitBass(MusicStream.HZ);            
         }
 
         // Событие, направленное на правильную работу окна

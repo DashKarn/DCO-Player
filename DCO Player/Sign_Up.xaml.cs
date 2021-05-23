@@ -15,8 +15,6 @@ namespace DCO_Player
     /// </summary>
     public partial class Sign_Up : Page
     {
-        string connectionString;
-
         Guid Id_user = Guid.NewGuid();
         string name { get; set; }
         string surname { get; set; }
@@ -45,6 +43,7 @@ namespace DCO_Player
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
+            Firebase.Init();
             bool load = false;
 
                 if (RName.IsMatch(Name.Text))
@@ -102,61 +101,47 @@ namespace DCO_Player
 
             if (BName && BSurname && BLogin && BPassword)
             {
+                if (cb != null)
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder(); // Создаем новый образ кодировщика
+                    encoder.Frames.Add(BitmapFrame.Create(cb)); // кодируем наше обрезанное изображение в png и далее ниже его сохраняем
+
+                    using (var fileStream = new System.IO.FileStream(Environment.CurrentDirectory + "/Images/Profiles/Avatar/" + Name.Text + "_" + Surname.Text + ".png", System.IO.FileMode.Create))
+                    {
+                        encoder.Save(fileStream);
+                    }
+
+                    imageSrc = "/Images/Profiles/Avatar/" + Name.Text + "_" + Surname.Text + ".png"; // Ссылка на аватар
+                }
+                else
+                {
+                    imageSrc = "";
+                }
+
                 try
                 {
-                    if (cb != null)
+                    SqlDataReader reader = Database.GetUser(login);
+                    if (reader.HasRows || Firebase.CheckUser(login)) // если есть данные
                     {
-                        BitmapEncoder encoder = new PngBitmapEncoder(); // Создаем новый образ кодировщика
-                        encoder.Frames.Add(BitmapFrame.Create(cb)); // кодируем наше обрезанное изображение в png и далее ниже его сохраняем
-
-                        using (var fileStream = new System.IO.FileStream(Environment.CurrentDirectory + "/Images/Profiles/Avatar/" + Name.Text + "_" + Surname.Text + ".png", System.IO.FileMode.Create))
-                        {
-                            encoder.Save(fileStream);
-                        }
-
-                        imageSrc = "/Images/Profiles/Avatar/" + Name.Text + "_" + Surname.Text + ".png"; // Ссылка на аватар
+                        MessageBox.Show("Пользователь " + login + "уже существует");
+                        load = false;
+                        throw new Exception();
                     }
-                    else
-                    {
-                        imageSrc = "";
-                    }
+                    reader.Close();
 
-                    connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "SELECT * FROM Users WHERE Login = '" + login + "'";
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.HasRows) // если есть данные
-                        {
-                            MessageBox.Show("Пользователь " + login + "уже существует");
-                            load = false;
-                            throw new Exception();
-                        }
-                    }
+                    Profile.Id_user = Id_user;
+                    Profile.name = name;
+                    Profile.login = login;
+                    Profile.password = password;
+                    Profile.surname = surname;
+                    Profile.createDate = createDate;
+                    Profile.imageSrc = imageSrc;
+                    Profile.subscriptionDate = DateTime.MinValue;
+                    Profile.gbs = 0;
+                    Profile.GBDate = DateTime.MinValue;
 
-                    sqlExpression = "INSERT INTO Users (Id_user, Name, Surname, Login, Password, Create_date, User_image_source, Subscription_date, N_GB, GB_date) VALUES" +
-                    " (@Id_user, @Name, @Surname, @Login, @Password, @Create_date, @User_image_source, @Subscription_date, @N_GB, @GB_date)";
-
-                    using (SqlConnection connection = new SqlConnection(connectionString))
-                    {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        command.Parameters.Add(new SqlParameter("@Id_user", Id_user));
-                        command.Parameters.Add(new SqlParameter("@Name", name));
-                        command.Parameters.Add(new SqlParameter("@Surname", surname));
-                        command.Parameters.Add(new SqlParameter("@Login", login));
-                        command.Parameters.Add(new SqlParameter("@Password", password));
-                        command.Parameters.Add(new SqlParameter("@Create_date", createDate.ToString("d")));
-                        command.Parameters.Add(new SqlParameter("@User_image_source", imageSrc));
-                        command.Parameters.Add(new SqlParameter("@Subscription_date", DateTime.MinValue.ToString("d")));
-                        command.Parameters.Add(new SqlParameter("@N_GB", "0"));
-                        command.Parameters.Add(new SqlParameter("@GB_date", DateTime.MinValue.ToString("d")));
-
-                        int number = command.ExecuteNonQuery();
-                        //MessageBox.Show("Добавлено объектов: {0}", number.ToString());
-                    }
+                    Database.InsertUser();
+                    Firebase.AddUser();
 
                     load = true;
                 }
@@ -169,15 +154,6 @@ namespace DCO_Player
 
             if (load)
             {
-                Profile.Id_user = Id_user;
-                Profile.name = name;
-                Profile.surname = surname;
-                Profile.createDate = createDate;
-                Profile.imageSrc = imageSrc;
-                Profile.subscriptionDate = DateTime.MinValue;
-                Profile.gbs = 0;
-                Profile.GBDate = DateTime.MinValue;
-
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.Show();
                 Start.Instance.Close();
