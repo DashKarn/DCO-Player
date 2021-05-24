@@ -36,5 +36,10 @@ namespace DCO_Player
                 MessageBox.Show("No entries in back navigation history.");
             }
         }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

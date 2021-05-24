@@ -20,6 +20,7 @@
                     </TransformGroup>
                 </Button.RenderTransform>
             </Button>
+            <Button Style="{StaticResource AddButton}" Name="Add" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="21,645,1262,20" Click="Add_Click"/>
 
             <Label x:Name="PlaylistName" Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold"/>
             <WrapPanel x:Name="WPP" Margin="0,48,0,0" HorizontalAlignment="Center"/>
