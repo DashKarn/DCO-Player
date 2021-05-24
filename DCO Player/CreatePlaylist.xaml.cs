@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -244,7 +246,65 @@ namespace DCO_Player
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
+            string Text = "";
+            bool isLocal = true;
 
+            new Thread(() =>
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+
+                    CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+                    dialog.InitialDirectory = "C:\\Users";
+                    dialog.IsFolderPicker = true;
+                    if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        Text = dialog.FileName;
+
+                        string[] allfiles = Directory.GetFiles(Text);
+
+                        foreach (string file in allfiles)
+                        {
+                            MessageBox.Show(file);
+                        }
+                    }
+
+                    string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                    string sqlExpression = "INSERT INTO Playlists (Id_user, Id_playlist, Name, Last_update, Last_sync) VALUES" +
+                        " (@Id_user, @Id_playlist, @Name, @Last_update, @Last_sync)";
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression, connection);
+                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
+                        command.Parameters.Add(new SqlParameter("@Id_playlist", Guid.NewGuid()));
+                        command.Parameters.Add(new SqlParameter("@Name", Text));
+                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("@Last_sync", DBNull.Value));
+
+                        number = command.ExecuteNonQuery();
+                    }
+
+                    sqlExpression = "INSERT INTO Songs (Id_song, Is_local, Full_name, Name,	Artist,	Album, Length, Path) VALUES" +
+                        " (@Id_song, @Is_local, @Full_name, @Name, @Artist, @Album,	@Length, @Path)";
+
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(sqlExpression, connection);
+                        command.Parameters.Add(new SqlParameter("@Id_song", Profile.Id_user));
+                        command.Parameters.Add(new SqlParameter("@Is_local", Guid.NewGuid()));
+                        command.Parameters.Add(new SqlParameter("@Name", Text));
+                        command.Parameters.Add(new SqlParameter("@Artist", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("@Last_sync", DBNull.Value));
+
+                        number = command.ExecuteNonQuery();
+                    }
+                }));
+
+            }).Start();
+            Close();
         }
     }
 }

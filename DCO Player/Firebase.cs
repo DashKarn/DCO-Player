@@ -20,17 +20,17 @@ namespace DCO_Player
         static DocumentReference doc_ref;
         public static void Init()
         {
-            string credential_path = @"D:\!! New diplom\dco-player-74813-c9cace3048cd.json";
+          //  string credential_path = @"D:dco-player-74813.json";
 
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credential_path);
+          //  Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credential_path);
 
-            db = FirestoreDb.Create(project_Id);
+          //  db = FirestoreDb.Create(project_Id);
 
 
-          //  StorageClient storage = StorageClient.Create();
-          //  Bucket bucket = storage.CreateBucket(project_Id, bucketName);
-          //  foreach (var b in storage.ListBuckets(project_Id))
-          //      Console.WriteLine(b.Name);
+          ////  StorageClient storage = StorageClient.Create();
+          ////  Bucket bucket = storage.CreateBucket(project_Id, bucketName);
+          ////  foreach (var b in storage.ListBuckets(project_Id))
+          ////      Console.WriteLine(b.Name);
         }
 
         public static void AddUser()
@@ -124,45 +124,45 @@ namespace DCO_Player
         public static List<RadioStation> GetRadio()
         {
             List<RadioStation> radioStations = new List<RadioStation>();
-            coll_ref = db.Collection("Radio");
-            QuerySnapshot snapshot = coll_ref.GetSnapshotAsync().Result;
+            ////coll_ref = db.Collection("Radio");
+            ////QuerySnapshot snapshot = coll_ref.GetSnapshotAsync().Result;
 
-            foreach (var doc in snapshot.Documents)
-            {
-                RadioStation station = new RadioStation();
-                station.Id = doc.GetValue<Guid>("Id_radio");
-                station.name = doc.GetValue<string>("Radio");
-                station.descr = doc.GetValue<string>("Description");
-                station.stream = doc.GetValue<string>("Stream");
-                station.page = doc.GetValue<string>("Page");
-                station.imageSrc = doc.GetValue<string>("Radio_image_source");
+            //foreach (var doc in snapshot.Documents)
+            //{
+            //    RadioStation station = new RadioStation();
+            //    station.Id = doc.GetValue<Guid>("Id_radio");
+            //    station.name = doc.GetValue<string>("Radio");
+            //    station.descr = doc.GetValue<string>("Description");
+            //    station.stream = doc.GetValue<string>("Stream");
+            //    station.page = doc.GetValue<string>("Page");
+            //    station.imageSrc = doc.GetValue<string>("Radio_image_source");
 
-                radioStations.Add(station);
-            }
+            //    radioStations.Add(station);
+            //}
             return radioStations;
         }
 
         public static List<UserPlaylist> GetPlaylists(bool songs = false)
         {
             List<UserPlaylist> playlists = new List<UserPlaylist>();
-            coll_ref = db.Collection("Playlists/" + Profile.login + "/Playlists");
-            QuerySnapshot snapshot = coll_ref.GetSnapshotAsync().Result;
+            //coll_ref = db.Collection("Playlists/" + Profile.login + "/Playlists");
+            //QuerySnapshot snapshot = coll_ref.GetSnapshotAsync().Result;
 
-            foreach (var doc in snapshot.Documents)
-            {
-                UserPlaylist playlist = new UserPlaylist();
+            //foreach (var doc in snapshot.Documents)
+            //{
+            //    UserPlaylist playlist = new UserPlaylist();
 
-                playlist.Id_user = doc.GetValue<Guid>("Id_user");
-                playlist.Id_playlist = doc.GetValue<Guid>("Id_playlist");
-                playlist.name = doc.GetValue<string>("Name");
-                playlist.lastUpdate = doc.GetValue<DateTime>("Last_update");
-                playlist.lastSync = doc.GetValue<DateTime>("Last_sync");
-                playlist.imageSrc = doc.GetValue<string>("Playlist_image_source");
+            //    playlist.Id_user = doc.GetValue<Guid>("Id_user");
+            //    playlist.Id_playlist = doc.GetValue<Guid>("Id_playlist");
+            //    playlist.name = doc.GetValue<string>("Name");
+            //    playlist.lastUpdate = doc.GetValue<DateTime>("Last_update");
+            //    playlist.lastSync = doc.GetValue<DateTime>("Last_sync");
+            //    playlist.imageSrc = doc.GetValue<string>("Playlist_image_source");
 
 
 
-                playlists.Add(playlist);
-            }
+            //    playlists.Add(playlist);
+            //}
             return playlists;
         }
 
@@ -172,41 +172,41 @@ namespace DCO_Player
         }
         public static bool AddPlaylists(List<UserPlaylist> playlists)
         {
-            int count = 0;
-            coll_ref = db.Collection("Playlists/" + Profile.login);
+            //int count = 0;
+            //coll_ref = db.Collection("Playlists/" + Profile.login);
 
-            foreach (var playlist in playlists)
-            {
-                doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(playlist.Id_playlist.ToString());
+            //foreach (var playlist in playlists)
+            //{
+            //    doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(playlist.Id_playlist.ToString());
 
-                Dictionary<string, object> pl = new Dictionary<string, object>
-            {
-                { "Id_user", playlist.Id_user.ToString() },
-                { "Id_playlist", playlist.Id_playlist.ToString() },
-                { "Name", playlist.name },
-                { "Last_update", playlist.lastUpdate.ToString() },
-                { "Last_sync", DateTime.Now.ToString() },
-                { "Playlist_image_source", playlist.imageSrc }
-            };
-                doc_ref.SetAsync(pl);
+            //    Dictionary<string, object> pl = new Dictionary<string, object>
+            //{
+            //    { "Id_user", playlist.Id_user.ToString() },
+            //    { "Id_playlist", playlist.Id_playlist.ToString() },
+            //    { "Name", playlist.name },
+            //    { "Last_update", playlist.lastUpdate.ToString() },
+            //    { "Last_sync", DateTime.Now.ToString() },
+            //    { "Playlist_image_source", playlist.imageSrc }
+            //};
+            //    doc_ref.SetAsync(pl);
 
-                if (doc_ref.GetSnapshotAsync().Result.Exists)
-                    count++;
-            }
-            if (count == playlists.Count)
-                return true;
-            else
+            //    if (doc_ref.GetSnapshotAsync().Result.Exists)
+            //        count++;
+            //}
+            //if (count == playlists.Count)
+            //    return true;
+            //else
                 return false;
         }
 
         public static bool DeletePlaylist(Guid id)
         {
-            doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(id.ToString());
-            doc_ref.DeleteAsync();
-            DocumentSnapshot snapshot = doc_ref.GetSnapshotAsync().Result;
-            if (snapshot.Exists)
-                return false;
-            else
+            //doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(id.ToString());
+            //doc_ref.DeleteAsync();
+            //DocumentSnapshot snapshot = doc_ref.GetSnapshotAsync().Result;
+            //if (snapshot.Exists)
+            //    return false;
+            //else
                 return true;
         }
     }
