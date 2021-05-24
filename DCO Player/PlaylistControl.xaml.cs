@@ -33,45 +33,30 @@ namespace DCO_Player
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpressionFirst = "SELECT Playlist_songs.Id_playlist, Playlist_songs.Id_song, Songs.Path, Songs.Name, Songs.Artist " + 
-                "FROM Playlist_songs, Playlists, Songs WHERE Playlists.Id_playlist = Playlist_songs.Id_playlist and Playlist_songs.Id_song = Songs.Id_song  and Playlists.Id_user = @Id_user"; // Делаем запрос к исполнителям
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            bool get_db;
+            List<Song> songs = new List<Song>();
+            (get_db, songs) = Database.GetSongs(Id_playlist);
+            if (!get_db)
+                return;
+
+            Playlist playlist = new Playlist(); // Получаем новую страницу с плейлистом
+
+            Vars.files.Clear();
+            Vars.id_playlist = Id_playlist;
+
+            foreach (var song in songs)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpressionFirst, connection);
-                command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
-                SqlDataReader reader = command.ExecuteReader();
+                Composition composition = new Composition(); // Создаем образ контрола с альбомом
+                composition.Margin = new Thickness(0, 15, 0, 0);
 
-                if (reader.HasRows) // если есть данные
-                {
-                    Playlist playlist = new Playlist(); // Получаем новую страницу с плейлистом
-
-                    Vars.files.Clear();
-                    Vars.id_playlist = Id_playlist;
-
-                    while (reader.Read())
-                    {
-                        if (Id_playlist == (Guid)reader.GetValue(0)) // Проверка на совпадение ключей альбома
-                        {
-                            Composition composition = new Composition(); // Создаем образ контрола с альбомом
-
-                            composition.Margin = new Thickness(0, 15, 0, 0);
-
-                            composition.Id_composition = (Guid)reader.GetValue(1);
-                            composition.CompositionName.Text = reader.GetValue(3).ToString();
-                            composition.ArtistName.Text = reader.GetValue(4).ToString();
-                            playlist.PlaylistName = PlaylistName;
-
-                            Vars.files.Add(Tuple.Create((Guid)reader.GetValue(1), reader.GetValue(2).ToString())); // Записываем пути для воспроизведения композиций текущего альбома
-
-                            playlist.WPP.Children.Add(composition); // Добавляем контрол на страницу
-                        }
-                    }
-                    Instance.NavigationService.Navigate(playlist);
-                }
-                reader.Close();
+                composition.Id_composition = song.Id_song;
+                composition.CompositionName.Text = song.name;
+                composition.ArtistName.Text = song.artist;
+                playlist.PlaylistName = PlaylistName;
+                Vars.files.Add(Tuple.Create(song.Id_song, song.path)); // Записываем пути для воспроизведения композиций текущего альбома
+                playlist.WPP.Children.Add(composition); // Добавляем контрол на страницу  
             }
-        }
+            Instance.NavigationService.Navigate(playlist);
+        }        
     }
 }

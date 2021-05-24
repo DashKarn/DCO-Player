@@ -28,7 +28,7 @@ namespace DCO_Player
         public bool Correct = true;
 
         public CountryAlbums InstanceCountry { get; set; }
-        public Albums InstanceAlbums { get; set; }
+     //   public Albums InstanceAlbums { get; set; }
         public Search InstanceSearch { get; set; }
 
         public AlbumControl()
@@ -171,7 +171,7 @@ namespace DCO_Player
                         }
                         else
                         {
-                            InstanceAlbums.NavigationService.Navigate(album);
+                           // InstanceAlbums.NavigationService.Navigate(album);
                         }
                     }
                     catch(Exception ex)

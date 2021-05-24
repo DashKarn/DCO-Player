@@ -38,8 +38,6 @@ namespace DCO_Player
 
         private void Log_In_Click(object sender, RoutedEventArgs e)
         {
-            Firebase.Init();
-
             bool load = false;
             if (RLogin.IsMatch(Login.Text))
             {
@@ -63,6 +61,7 @@ namespace DCO_Player
 
             if (BLogin && BPassword)
             {
+                Firebase.Init(); 
                 try
                 {
                     SqlDataReader reader = Database.GetUser(login);
@@ -94,9 +93,9 @@ namespace DCO_Player
                     {
                         if (Firebase.CheckUser(login))
                         {
-                            Firebase.GetUser(login);
-                            Database.InsertUser();
-                            load = true;
+                            load = Firebase.GetUser(login);
+                            if (load)
+                                Database.InsertUser();
                         }
                         else
                         {
@@ -108,7 +107,8 @@ namespace DCO_Player
                 }
                 catch
                 {
-                    MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
+                    MessageBox.Show("Не получается загрузить пользователя. \n" +
+                        "Отсутствует подключение к базе данных и интернету");
                     load = false;
                 }
             }

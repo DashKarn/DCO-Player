@@ -20,42 +20,47 @@ namespace DCO_Player
     /// <summary>
     /// Логика взаимодействия для My_playlists.xaml
     /// </summary>
+    
     public partial class My_playlists : Page
     {
         public My_playlists()
         {
             InitializeComponent();
 
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            string sqlExpression = "SELECT * FROM Playlists"; // Делаем запрос к плейлистам
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            bool get_db;
+            List<UserPlaylist> playlists = new List<UserPlaylist>();
+
+            (get_db, playlists) = Database.GetPlaylists();
+            if (playlists.Count == 0)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows) // если есть данные
+                playlists = Firebase.GetPlaylists();
+                if (playlists.Count > 0 && get_db)
+                    Database.InsertPlaylists(playlists);
+            }
+
+            if (playlists.Count > 0)
+            {
+                foreach (var playlist in playlists)
                 {
-                    while (reader.Read())
+                    if (playlist.name == UserPlaylist.NULL_NAME)
+                        continue;
+
+                    PlaylistControl playlistControl = new PlaylistControl(); // Создаем образ контрола с плейлистом
+                    playlistControl.Margin = new Thickness(64, 35, 0, 29);
+                    playlistControl.Instance = this;
+                    playlistControl.Id_playlist = playlist.Id_playlist;
+                    playlistControl.PlaylistName.Content = playlist.name; // Передаем имя плейлиста в контрол
+                    if (playlist.imageSrc != "")
                     {
-                        if(Profile.Id_user == (Guid)reader.GetValue(0)){
-                            PlaylistControl playlistControl = new PlaylistControl(); // Создаем образ контрола с плейлистом
-
-                            playlistControl.Margin = new Thickness(64, 35, 0, 29);
-
-                            playlistControl.Instance = this;
-                            playlistControl.Id_playlist = (Guid)reader.GetValue(1);
-
-                            playlistControl.PlaylistName.Content = reader.GetValue(2).ToString(); // Передаем имя плейлиста в контрол
-                            if(reader.GetValue(5).ToString() != "")
-                            {
-                                playlistControl.Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + reader.GetValue(5).ToString(), UriKind.Absolute)); // Передаем картинку в плейлист
-                            }
-                            WPM.Children.Add(playlistControl); // Добавляем контрол на страницу
-                        }
+                        playlistControl.Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + playlist.imageSrc, UriKind.Absolute)); // Передаем картинку в плейлист
                     }
+                    WPM.Children.Add(playlistControl); // Добавляем контрол на страницу                       
                 }
-                reader.Close();
-            }                       
+            }
+            else
+                if (!get_db)
+                    MessageBox.Show("Не получается зарузить плейлисты. \n" +
+                        "Отсутствует подключение к базе данных и интернет соединение");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -65,7 +70,60 @@ namespace DCO_Player
         }
         private void Sync_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            bool get_db;
+            List<UserPlaylist> playlists_fb = new List<UserPlaylist>();
+            var ids_fb = playlists_fb.Select(f => f.Id_playlist).ToList();
+            List<UserPlaylist> playlists_db = new List<UserPlaylist>();
+            var ids_db = playlists_db.Select(f => f.Id_playlist).ToList();
 
+            playlists_fb = Firebase.GetPlaylists();
+            if (playlists_fb.Count == 0)
+                return;
+
+            (get_db, playlists_db) = Database.GetPlaylists();
+            if (!get_db)
+                return;
+
+            //upload to server
+            foreach (var playlist in playlists_db)
+            {
+                if (playlist.name == UserPlaylist.NULL_NAME)
+                {
+                    if (Firebase.DeletePlaylist(playlist.Id_playlist))
+                        Database.DeletePlaylist(playlist, false);
+                    continue;
+                }
+                if (!ids_fb.Contains(playlist.Id_playlist) ||
+                    playlist.lastUpdate > playlist.lastSync)
+                {
+                    playlist.lastSync = DateTime.Now;
+                    if (Firebase.AddPlaylist(playlist))
+                        Database.UpdatePlaylist(playlist);
+                }
+            }
+            // Download to local DB
+            foreach (var playlist in playlists_fb)
+            {
+                if (playlist.name == UserPlaylist.NULL_NAME)
+                {
+                    if (Database.DeletePlaylist(playlist, false))
+                        Firebase.DeletePlaylist(playlist.Id_playlist);
+                    continue;
+                }
+                if (!ids_db.Contains(playlist.Id_playlist))
+                {
+                    playlist.lastSync = DateTime.Now;
+                    if (Database.InsertPlaylist(playlist))
+                        Firebase.AddPlaylist(playlist);
+                    continue;
+                }
+                if (playlist.lastSync > playlists_db.First(f => f.Id_playlist == playlist.Id_playlist).lastSync)
+                {
+                    playlist.lastSync = DateTime.Now;
+                    if (Database.UpdatePlaylist(playlist))
+                        Firebase.AddPlaylist(playlist);
+                }
+            }
         }
     }
 }

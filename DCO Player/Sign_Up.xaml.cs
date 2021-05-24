@@ -21,7 +21,7 @@ namespace DCO_Player
         string login { get; set; }
         string password { get; set; }
 
-        DateTime createDate = DateTime.Now;
+        DateTime createDate = DateTime.Now.Date;
         string imageSrc { get; set; }
 
         Regex RName = new Regex("^([А-я]|[A-z]){1,19}$");
@@ -43,8 +43,7 @@ namespace DCO_Player
 
         private void Sign_Up_Click(object sender, RoutedEventArgs e)
         {
-            Firebase.Init();
-            bool load = false;
+            bool load = true;
 
                 if (RName.IsMatch(Name.Text))
                 {
@@ -101,6 +100,8 @@ namespace DCO_Player
 
             if (BName && BSurname && BLogin && BPassword)
             {
+                Firebase.Init();
+
                 if (cb != null)
                 {
                     BitmapEncoder encoder = new PngBitmapEncoder(); // Создаем новый образ кодировщика
@@ -123,7 +124,6 @@ namespace DCO_Player
                     SqlDataReader reader = Database.GetUser(login);
                     if (reader.HasRows || Firebase.CheckUser(login)) // если есть данные
                     {
-                        MessageBox.Show("Пользователь " + login + "уже существует");
                         load = false;
                         throw new Exception();
                     }
@@ -147,7 +147,11 @@ namespace DCO_Player
                 }
                 catch
                 {
-                    MessageBox.Show("Отсутствует подключение к базе данных,\n проверьте соединение на сервере");
+                    if (load == false)
+                        MessageBox.Show("Пользователь " + login + "уже существует");
+                    else
+                        MessageBox.Show("Не удаётся зарегестрировать пользователя. \n" +
+                            "Отсутствует подключение к базе данных");
                     load = false;
                 }
             }
@@ -184,7 +188,6 @@ namespace DCO_Player
             {
                 MessageBox.Show("Изображение должно быть 600х600 пикселей");
             }
-
         }
     }
 }

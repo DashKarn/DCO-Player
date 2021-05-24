@@ -247,7 +247,7 @@ namespace DCO_Player
             SubscribeBrush.Brush = SubscribeTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
             RadioBrush.Brush = RadioTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E46E62"));
             PlaylistsBrush.Brush = PlaylistsTextBlock.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#AFAFAF"));
-            Frame.Navigate(new Radio());
+            Frame.Navigate(radioPage);
         }
 
         // Событие перехода к странице плейлистов

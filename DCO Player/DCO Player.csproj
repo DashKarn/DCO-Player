@@ -352,6 +352,7 @@
     <Compile Include="Sign_Up.xaml.cs">
       <DependentUpon>Sign_Up.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Song.cs" />
     <Compile Include="Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
@@ -364,6 +365,7 @@
     <Compile Include="Subscribe.xaml.cs">
       <DependentUpon>Subscribe.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserPlaylist.cs" />
     <Compile Include="Vars.cs" />
     <Page Include="Album.xaml">
       <SubType>Designer</SubType>
