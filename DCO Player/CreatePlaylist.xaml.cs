@@ -1,24 +1,19 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
+using System.Data.SqlClient;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.IO;
 using System.Windows.Threading;
+
 
 namespace DCO_Player
 {
@@ -131,14 +126,15 @@ namespace DCO_Player
         CroppedBitmap cb;
 
         private DispatcherTimer timer = null;
-
         int number = 0;
+        Regex regx_name = new Regex(@"^.{1, 45}$");
+        Regex regx_empty = new Regex(@"^\s+$");
+        List<Song> songs = new List<Song>();
+        List<Song> songs_all = new List<Song>();
 
         public CreatePlaylist()
         {
-            InitializeComponent();
-
-            
+            InitializeComponent();            
         }
 
         // Событие, направленное на правильную работу окна
@@ -180,7 +176,8 @@ namespace DCO_Player
 
             new Thread(() =>
             {
-                Application.Current.Dispatcher.Invoke(new Action(() => {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
 
                     string Img;
 
@@ -203,37 +200,56 @@ namespace DCO_Player
                         Img = "";
                     }
 
-                    if(Regex.IsMatch(NamePlaylist.Text, @"^[а-я А-Я a-z A-Z 0-9]+$"))
+                    if (regx_name.IsMatch(NamePlaylist.Text))
                     {
                         Text = NamePlaylist.Text;
                     }
                     else
                     {
-                        Text = "Playlist " + new Random().Next(1, 999);
+                        Text = "Playlist " + DateTime.Today.ToString("dd.MM.yyyyy");
                     }
+                    int i = 1;
+                    while (true)
+                        if (Vars.allPlaylists.Select(p => p.Item2).ToList().Contains(Text))
+                        {
+                            MessageBox.Show("Такое имя уже существует");
+                            Text = Text + " " + i.ToString();
+                            i++;
+                        }
+                        else
+                            break;
 
-                    string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                    string sqlExpression = "INSERT INTO Playlists (Id_user, Id_playlist, Name, Last_update, Last_sync, Playlist_image_source) VALUES" +
-                        " (@Id_user, @Id_playlist, @Name, @Last_update, @Last_sync, @Playlist_image_source)";
+                    UserPlaylist playlist = new UserPlaylist();
+                    playlist.Id_playlist = Guid.NewGuid();
+                    playlist.Id_user = Profile.Id_user;
+                    playlist.name = Text;
+                    playlist.lastUpdate = DateTime.Now;
+                    playlist.lastSync = DateTime.MinValue;
+                    playlist.imageSrc = Img;
+                    playlist.songs = songs;
 
-                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    if (Database.InsertSongs(songs_all))
                     {
-                        connection.Open();
-                        SqlCommand command = new SqlCommand(sqlExpression, connection);
-                        command.Parameters.Add(new SqlParameter("@Id_user", Profile.Id_user));
-                        command.Parameters.Add(new SqlParameter("@Id_playlist", Guid.NewGuid()));
-                        command.Parameters.Add(new SqlParameter("@Name", Text));
-                        command.Parameters.Add(new SqlParameter("@Last_update", DateTime.Now));
-                        command.Parameters.Add(new SqlParameter("@Last_sync", DBNull.Value));
-                        command.Parameters.Add(new SqlParameter("@Playlist_image_source", Img));
-
-                        number = command.ExecuteNonQuery();
-                        //MessageBox.Show("Добавлено объектов " + number.ToString());
+                        Firebase.AddSongs(songs_all);
+                        if (Database.InsertPlaylist(playlist))
+                        {
+                            if (Firebase.AddPlaylist(playlist))
+                            {
+                                playlist.lastSync = DateTime.Now;
+                                Database.UpdatePlaylist(playlist);
+                                Firebase.AddPlaylist(playlist);
+                            }
+                        }
+                        else
+                            MessageBox.Show("Не удалось создать плейлист. \n" +
+                                "Нет подключения к БД");
                     }
-
-                }));
-                
+                    else
+                        MessageBox.Show("Не удалось создать плейлист. \n" +
+                            "Нет подключения к БД");
+                }));                
             }).Start();
+
             Close();
         }
 
@@ -245,6 +261,48 @@ namespace DCO_Player
         private void Add_Click(object sender, RoutedEventArgs e)
         {
 
+            bool db;
+            List<Tuple<Guid, string>> paths;
+            string Text = "";
+            int i;
+
+            new Thread(() =>
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                {
+                    CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+                    dialog.InitialDirectory = "C:\\Users";
+                    dialog.IsFolderPicker = true;
+                    if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        Text = dialog.FileName;
+                        string[] allfiles = Directory.GetFiles(Text);
+                        (db, paths) = Database.GetSongsPath();
+                        if (!db)
+                            MessageBox.Show("Отсутствует подключение к БД");
+                        else
+                        {
+                            i = 0;
+                            foreach (string file in allfiles)
+                            {
+                                Song song = new Song();
+                                song.addProperties(file);
+                                if (paths.Any(m => m.Item2 == file))
+                                    song.Id_song = paths.First(m => m.Item2 == file).Item1;
+                                else
+                                {
+                                    song.Id_song = Guid.NewGuid();
+                                    songs_all.Add(song);
+                                }
+                                song.n_sequence = i;
+                                songs.Add(song);
+                                i++;
+                            }
+                        }
+                    }                   
+                }));
+
+            }).Start();
         }
     }
 }

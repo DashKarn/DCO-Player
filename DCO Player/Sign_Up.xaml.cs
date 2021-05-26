@@ -20,8 +20,6 @@ namespace DCO_Player
         string surname { get; set; }
         string login { get; set; }
         string password { get; set; }
-
-        DateTime createDate = DateTime.Now.Date;
         string imageSrc { get; set; }
 
         Regex RName = new Regex("^([А-я]|[A-z]){1,19}$");
@@ -134,7 +132,7 @@ namespace DCO_Player
                     Profile.login = login;
                     Profile.password = password;
                     Profile.surname = surname;
-                    Profile.createDate = createDate;
+                    Profile.createDate = DateTime.Today;
                     Profile.imageSrc = imageSrc;
                     Profile.subscriptionDate = DateTime.MinValue;
                     Profile.gbs = 0;

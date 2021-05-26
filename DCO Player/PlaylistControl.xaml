@@ -7,9 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="295" d:DesignWidth="250">
     <Grid>
-        <Border Height="250" BorderThickness="1" BorderBrush="#616161" CornerRadius="3" VerticalAlignment="Top">
+
+        <Border Height="250" Panel.ZIndex="0" BorderThickness="1" BorderBrush="#616161" CornerRadius="3" VerticalAlignment="Top">
             <Image x:Name="Image" Source="/Images/playlist.png" MouseDown="Image_MouseDown"/>
         </Border>
-        <Label x:Name="PlaylistName" Margin="0,265,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+
+        <Label x:Name="PlaylistName" HorizontalAlignment="Center" Panel.ZIndex="1" Margin="0,265,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+        <Button x:Name="Delete" Panel.ZIndex="3" Style="{StaticResource DropButton}" Background="{x:Null}" BorderBrush="{x:Null}" Visibility="Visible"   Width="30" Height="30" Foreground="{x:Null}" Margin="10,10, 200, 280" Click="Delete_Click"/>
     </Grid>
 </UserControl>

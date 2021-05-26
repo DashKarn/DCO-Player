@@ -10,6 +10,8 @@ namespace DCO_Player
     [FirestoreData]
     static class Profile
     {
+        public const int UNLIM_GB = 100;
+
         [FirestoreProperty("Id_user")]
         public static Guid Id_user { get; set; }        // Идентификатор 
 

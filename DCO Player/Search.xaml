@@ -22,7 +22,7 @@
             </Button>
 
             <Label Margin="64,13,0,0" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="25" FontWeight="Bold">Search</Label>
-            <WrapPanel x:Name="WPS" Margin="0,48,0,0" HorizontalAlignment="Center"/>
+            <WrapPanel x:Name="WPM" Margin="0,48,0,0" HorizontalAlignment="Center"/>
         </Grid>
     </ScrollViewer>
 </Page>

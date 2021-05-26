@@ -222,8 +222,9 @@ namespace DCO_Player
             My_playlists.Margin = new Thickness(10, 140, 0, 0);
             ButtonMenuOpen.Margin = new Thickness(0, 6, 6, 0);
             LogOutGrid.Margin = new Thickness(5, 0, 13, 11);
-            Compositions.Visibility = Visibility.Collapsed;
+            Songs.Visibility = Visibility.Collapsed;
             Albums.Visibility = Visibility.Collapsed;
+            Artists.Visibility = Visibility.Collapsed;
         }
 
         // Событие развертывания меню
@@ -237,8 +238,9 @@ namespace DCO_Player
             My_playlists.Margin = new Thickness(10, 47, 0, 0);
             ButtonMenuOpen.Margin = new Thickness(0, 6, 6, 0);
             LogOutGrid.Margin = new Thickness(15, 0, 15, 11);
-            Compositions.Visibility = Visibility.Visible;
+            Songs.Visibility = Visibility.Visible;
             Albums.Visibility = Visibility.Visible;
+            Artists.Visibility = Visibility.Collapsed;
         }
 
         // Событие перехода к странице радио
@@ -271,7 +273,7 @@ namespace DCO_Player
         // Событие запуска воспроизведения
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            MusicStream.Stop();
+          //  MusicStream.Stop();
             MusicStream.Play();
             MusicStream.StreamLineStart();
         }

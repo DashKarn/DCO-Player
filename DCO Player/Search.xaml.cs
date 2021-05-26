@@ -1,19 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DCO_Player
 {
@@ -22,59 +10,59 @@ namespace DCO_Player
     /// </summary>
     public partial class Search : Page
     {
-        public void Srch(string sqlExpression)
+        public void Srch(bool song, bool album, bool artist)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            List<Song> all_songs;
+            bool db;
+            (db, all_songs) = Database.GetAllSongs();
+            if (!db)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows) // если есть данные
-                {
-                    while (reader.Read())
-                    {
-                        if (MainWindow.Instance.SearchContent.Text.ToUpper() == reader.GetValue(6).ToString().ToUpper())
-                        {
-                            AlbumControl albumControl = new AlbumControl(); // Создаем образ контрола с альбомом
-
-                            albumControl.Margin = new Thickness(32);
-
-                            albumControl.InstanceSearch = this;
-
-                            albumControl.ArtistName.Text = reader.GetValue(1).ToString(); // Передаем имя Исполнителя в контрол
-                            albumControl.AlbumName.Text = reader.GetValue(2).ToString(); // Передаем имя Альбома в контрол
-                            albumControl.Price.Content = "$" + reader.GetValue(3).ToString(); // Передаем цену в альбом
-                            albumControl.price = (int)reader.GetValue(3);
-                            albumControl.Id_albums = (Guid)reader.GetValue(5);
-                            albumControl.Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + reader.GetValue(4).ToString(), UriKind.Absolute)); // Передаем картинку в альбом
-
-                            WPS.Children.Add(albumControl); // Добавляем контрол на страницу
-                        }
-
-                    }
-                }
-                reader.Close();
+                MessageBox.Show("Нет соединения с БД");
+                return;
             }
-        }
+            bool match = false;
+            string str = MainWindow.Instance.SearchContent.Text.ToLower();
 
+            Vars.search.Clear();
+            foreach (var s in all_songs)
+            {
+                match = false;
+                if (song)
+                    if (s.name.ToLower().Contains(str))
+                        match = true;
+                if (album)
+                    if (s.album.ToLower().Contains(str))
+                        match = true;
+                if (artist)
+                    if (s.artist.ToLower().Contains(str))
+                        match = true;
+
+                if (match)
+                {
+                    Composition composition = new Composition(); // Создаем образ контрола 
+                    composition.Margin = new Thickness(0, 15, 0, 0);
+                    composition.search = true;
+                    composition.song_ = s;
+                    composition.CompositionName.Text = s.name;
+                    composition.ArtistName.Text = s.artist;
+                    composition.Drop.Visibility = Visibility.Hidden;
+                    composition.Duration.Text = TimeSpan.FromSeconds(s.length).ToString(@"mm\:ss");
+                    Vars.search.Add(composition); // Записываем пути для воспроизведения композиций текущего альбома
+                    WPM.Children.Add(composition); // Добавляем контрол на страницу 
+                }
+            }
+
+        }
         public Search()
         {
             InitializeComponent();
 
-            if (MainWindow.Instance.Albums.IsChecked == true && MainWindow.Instance.Compositions.IsChecked == false)
-            {
-                string sqlExpression = "SELECT Id_artist, Artist, Album, Price, Album_image_source, Albums.Id_albums, Album FROM Artists, Albums Where Artists.Id_artists = Albums.Id_artist"; // Делаем запрос к Альбомам и композициям
-                Srch(sqlExpression);
-            }
- 
-            if (MainWindow.Instance.Albums.IsChecked == false && MainWindow.Instance.Compositions.IsChecked == true)
-            {
-                string sqlExpression = "SELECT Id_artist, Artist, Album, Price, Album_image_source, Albums.Id_albums, Composition FROM Artists, Albums, Album Where Artists.Id_artists = Albums.Id_artist and Albums.Id_albums = Album.Id_album"; // Делаем запрос к Альбомам и композициям
-                Srch(sqlExpression);
-            }
-            
+            if (!MainWindow.Instance.Albums.IsChecked.Value && !MainWindow.Instance.Songs.IsChecked.Value && !MainWindow.Instance.Artists.IsChecked.Value)
+                Srch(true, true, true);
+            else
+                Srch(MainWindow.Instance.Songs.IsChecked.Value,
+                    MainWindow.Instance.Albums.IsChecked.Value,
+                    MainWindow.Instance.Artists.IsChecked.Value);
         }
 
         private void Undo_Click(object sender, RoutedEventArgs e)

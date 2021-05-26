@@ -100,10 +100,13 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Border Margin="0,0,5,5">
-                            <ToggleButton x:Name="Compositions" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="6,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#999999" >COMPOSITIONS</ToggleButton>
+                            <ToggleButton x:Name="Songs" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="6,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#999999" >SONGS</ToggleButton>
                         </Border>
                         <Border Margin="0,0,5,5">
                             <ToggleButton x:Name="Albums" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="6,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#999999" >ALBUMS</ToggleButton>
+                        </Border>
+                        <Border Margin="0,0,5,5">
+                            <ToggleButton x:Name="Artists" FontFamily="Century Gothic" FontSize="12" FontWeight="Bold" Padding="6,3" Height="23" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#999999" >ARTISTS</ToggleButton>
                         </Border>
                     </StackPanel>
                     <StackPanel x:Name="My_playlists" Margin="10,47,0,0" Orientation="Horizontal" >

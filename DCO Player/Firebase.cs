@@ -13,7 +13,7 @@ namespace DCO_Player
     static class Firebase
     {
         static string project_Id = "dco-player-74813";
-       // static string bucketName = "dco-player-74813.appspot.com";
+        // static string bucketName = "dco-player-74813.appspot.com";
 
         static FirestoreDb db;
         static CollectionReference coll_ref;
@@ -27,10 +27,10 @@ namespace DCO_Player
             db = FirestoreDb.Create(project_Id);
 
 
-          //  StorageClient storage = StorageClient.Create();
-          //  Bucket bucket = storage.CreateBucket(project_Id, bucketName);
-          //  foreach (var b in storage.ListBuckets(project_Id))
-          //      Console.WriteLine(b.Name);
+            //  StorageClient storage = StorageClient.Create();
+            //  Bucket bucket = storage.CreateBucket(project_Id, bucketName);
+            //  foreach (var b in storage.ListBuckets(project_Id))
+            //      Console.WriteLine(b.Name);
         }
 
         public static void AddUser()
@@ -57,13 +57,6 @@ namespace DCO_Player
             doc_ref = db.Collection("Users").Document(Profile.login);
             Dictionary<string, object> user = new Dictionary<string, object>
             {
-                { "Id_user", Profile.Id_user.ToString() },
-                { "Name", Profile.name },
-                { "Surname", Profile.surname },
-                { "Login", Profile.login },
-                { "Password", Profile.password },
-                { "Create_date", Profile.createDate.ToString() },
-                { "User_image_source", Profile.imageSrc },
                 { "Subscription_Date", Profile.subscriptionDate.ToString() },
                 { "N_GB", Profile.gbs },
                 { "GB_Date", Profile.GBDate.ToString() }
@@ -88,16 +81,16 @@ namespace DCO_Player
             if (!snapshot.Exists)
                 return false;
 
-            Profile.Id_user = snapshot.GetValue<Guid>("Id_user");
+            Profile.Id_user = Guid.Parse(snapshot.GetValue<string>("Id_user"));
             Profile.name = snapshot.GetValue<string>("Name");
             Profile.surname = snapshot.GetValue<string>("Surname");
             Profile.login = snapshot.GetValue<string>("Login");
             Profile.password = snapshot.GetValue<string>("Password");
-            Profile.createDate = snapshot.GetValue<DateTime>("Create_date");
+            Profile.createDate = DateTime.Parse(snapshot.GetValue<string>("Create_date"));
             Profile.imageSrc = snapshot.GetValue<string>("User_image_source");
-            Profile.subscriptionDate = snapshot.GetValue<DateTime>("Subscription_Date");
+            Profile.subscriptionDate = DateTime.Parse(snapshot.GetValue<string>("Subscription_date"));
             Profile.gbs = snapshot.GetValue<int>("N_GB");
-            Profile.GBDate = snapshot.GetValue<DateTime>("GB_date");
+            Profile.GBDate = DateTime.Parse(snapshot.GetValue<string>("GB_date"));
             return true;
         }
         public static void DeleteUser()
@@ -130,7 +123,7 @@ namespace DCO_Player
             foreach (var doc in snapshot.Documents)
             {
                 RadioStation station = new RadioStation();
-                station.Id = doc.GetValue<Guid>("Id_radio");
+                station.Id = doc.GetValue<int>("Id_radio");
                 station.name = doc.GetValue<string>("Radio");
                 station.descr = doc.GetValue<string>("Description");
                 station.stream = doc.GetValue<string>("Stream");
@@ -142,7 +135,35 @@ namespace DCO_Player
             return radioStations;
         }
 
-        public static List<UserPlaylist> GetPlaylists(bool songs = false)
+        public static UserPlaylist GetPlaylist(string Id_playlist)
+        {
+            string[] split1 = { " , " };
+            string[] split2 = { " = " };
+            UserPlaylist playlist = new UserPlaylist();
+            doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(Id_playlist);
+            DocumentSnapshot doc = doc_ref.GetSnapshotAsync().Result;
+            if (!doc.Exists)
+                return null;
+            playlist.Id_user = Guid.Parse(doc.GetValue<string>("Id_user"));
+            playlist.Id_playlist = Guid.Parse(doc.GetValue<string>("Id_playlist"));
+            playlist.name = doc.GetValue<string>("Name");
+            playlist.lastUpdate = DateTime.Parse(doc.GetValue<string>("Last_update"));
+            playlist.lastSync = DateTime.Parse(doc.GetValue<string>("Last_sync"));
+            playlist.imageSrc = doc.GetValue<string>("Playlist_image_source");
+            var s = doc.GetValue<string>("Songs");
+            List<Tuple<Guid, int>> songs = new List<Tuple<Guid, int>>();
+            if (s != "")
+                songs = s.Split(split1, StringSplitOptions.None)
+                        .Select(p => p.Split(split2, StringSplitOptions.None))
+                        .Select(p => new Tuple<Guid, int>(Guid.Parse(p[0]), int.Parse(p[1])))
+                        .ToList();
+            songs = songs.OrderByDescending(p => p.Item2).ToList();
+            playlist.songs = GetSongs(songs.Select(p => p.Item1).ToList());
+
+            return playlist;
+
+        }
+        public static List<UserPlaylist> GetPlaylists(bool deleted = false)
         {
             List<UserPlaylist> playlists = new List<UserPlaylist>();
             coll_ref = db.Collection("Playlists/" + Profile.login + "/Playlists");
@@ -151,17 +172,11 @@ namespace DCO_Player
             foreach (var doc in snapshot.Documents)
             {
                 UserPlaylist playlist = new UserPlaylist();
-
-                playlist.Id_user = doc.GetValue<Guid>("Id_user");
-                playlist.Id_playlist = doc.GetValue<Guid>("Id_playlist");
-                playlist.name = doc.GetValue<string>("Name");
-                playlist.lastUpdate = doc.GetValue<DateTime>("Last_update");
-                playlist.lastSync = doc.GetValue<DateTime>("Last_sync");
-                playlist.imageSrc = doc.GetValue<string>("Playlist_image_source");
-
-
-
-                playlists.Add(playlist);
+                playlist = GetPlaylist(doc.GetValue<string>("Id_playlist"));
+                if (playlist.name == UserPlaylist.NULL_NAME && deleted)
+                    playlists.Add(playlist);
+                else
+                    continue;
             }
             return playlists;
         }
@@ -173,11 +188,18 @@ namespace DCO_Player
         public static bool AddPlaylists(List<UserPlaylist> playlists)
         {
             int count = 0;
-            coll_ref = db.Collection("Playlists/" + Profile.login);
+            string songs;
 
             foreach (var playlist in playlists)
             {
-                doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(playlist.Id_playlist.ToString());
+                var doc_name = playlist.Id_playlist.ToString();
+                doc_ref = db.Collection("Playlists/" + Profile.login + "/Playlists").Document(doc_name);
+                if (playlist.songs.Count > 0)
+                {
+                    songs = string.Join(" , ", playlist.songs.Select(kv => kv.Id_song.ToString() + " = " + kv.n_sequence).ToArray());
+                }
+                else
+                    songs = "";
 
                 Dictionary<string, object> pl = new Dictionary<string, object>
             {
@@ -186,7 +208,8 @@ namespace DCO_Player
                 { "Name", playlist.name },
                 { "Last_update", playlist.lastUpdate.ToString() },
                 { "Last_sync", DateTime.Now.ToString() },
-                { "Playlist_image_source", playlist.imageSrc }
+                { "Playlist_image_source", playlist.imageSrc },
+                { "Songs", songs }
             };
                 doc_ref.SetAsync(pl);
 
@@ -208,6 +231,96 @@ namespace DCO_Player
                 return false;
             else
                 return true;
+        }
+        
+        public static List<Song> GetSongs(List<Guid> Id_songs = null, bool all = false)
+        {
+            List<Song> songs = new List<Song>();
+            List<Song> songs_playlist = new List<Song>();
+            Song s;
+            coll_ref = db.Collection("Songs");
+            QuerySnapshot snapshot = coll_ref.GetSnapshotAsync().Result;
+            int i = 0;
+            foreach (var doc in snapshot.Documents)
+            {
+                Song song = new Song();
+                song.Id_song = Guid.Parse(doc.GetValue<string>("Id_song"));
+                song.is_local = doc.GetValue<bool>("Is_local");
+                song.full_name = doc.GetValue<string>("Full_name");
+                song.name = doc.GetValue<string>("Name");
+                song.artist = doc.GetValue<string>("Artist");
+                song.album = doc.GetValue<string>("Album");
+                song.length = doc.GetValue<int>("Length");
+                song.path = doc.GetValue<string>("Path");
+                songs.Add(song);
+            }
+            if (all)
+                return songs;
+            else
+            {
+                foreach(var id in Id_songs)
+                {
+                    s = songs.First(o => o.Id_song == id);
+                    s.n_sequence = i;
+                    songs_playlist.Add(s);
+                    i++;
+                }
+                return songs_playlist;
+            }
+        }
+
+        public static bool AddSong(Song song)
+        {
+            return AddSongs(new List<Song> { song });
+        }
+        public static bool AddSongs(List<Song> songs)
+        {
+            int count = 0;
+
+            foreach (var song in songs)
+            {
+                doc_ref = db.Collection("Songs/" + Profile.login + "/Songs").Document(song.Id_song.ToString());
+
+                Dictionary<string, object> s = new Dictionary<string, object>
+            {
+                { "Id_song", song.Id_song.ToString() },
+                { "Is_local", song.is_local.ToString() },
+                { "Full_name", song.full_name },
+                { "Name", song.name },
+                { "Artist", song.artist },
+                { "Album", song.album },
+                { "Length", song.length },
+                { "Path", song.path }
+            };
+                doc_ref.SetAsync(s);
+
+                if (doc_ref.GetSnapshotAsync().Result.Exists)
+                    count++;
+            }
+            if (count == songs.Count)
+                return true;
+            else
+                return false;
+        }
+        public static bool DeleteSong(Song song)
+        {
+            return DeleteSongs(new List<Song> { song });
+        }
+        public static bool DeleteSongs(List<Song> songs)
+        {
+            int count = 0;
+
+            foreach (var song in songs)
+            {
+                doc_ref = db.Collection("Songs/" + Profile.login + "/Songs").Document(song.Id_song.ToString());
+                doc_ref.DeleteAsync();
+                if (doc_ref.GetSnapshotAsync().Result.Exists)
+                    count++;
+            }
+            if (count == songs.Count)
+                return true;
+            else
+                return false;
         }
     }
 }

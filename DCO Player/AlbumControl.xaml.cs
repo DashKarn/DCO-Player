@@ -27,7 +27,7 @@ namespace DCO_Player
         public List<Guid> purchasedAlbums = new List<Guid>();
         public bool Correct = true;
 
-        public CountryAlbums InstanceCountry { get; set; }
+      //  public CountryAlbums InstanceCountry { get; set; }
      //   public Albums InstanceAlbums { get; set; }
         public Search InstanceSearch { get; set; }
 
@@ -115,7 +115,7 @@ namespace DCO_Player
         }
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+        {/*
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             string sqlExpressionFirst = "SELECT Id_albums, Id_composition, Composition_source, Composition, Artist, Album_image_source_record, Album, Description FROM Album, Artists, Albums where Artists.Id_artists = Albums.Id_artist and Albums.Id_albums = Album.Id_album"; // Делаем запрос к исполнителям
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -180,7 +180,7 @@ namespace DCO_Player
                     }
                 }
                 reader.Close();
-            }
+            }*/
         }
     }
 }

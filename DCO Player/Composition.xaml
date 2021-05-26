@@ -11,8 +11,9 @@
         <Grid x:Name="myGrid" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="536"/>
+                <ColumnDefinition Width="577"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="Stop" Visibility="Collapsed" Style="{StaticResource StopButton}" Grid.Column="0" Width="40" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="10,0,0,0" Click="Stop_Click"/>
@@ -21,7 +22,11 @@
                 <TextBlock x:Name="CompositionName" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="16" Margin="0,13,0,0" FontWeight="Bold"/>
                 <TextBlock x:Name="ArtistName" Foreground="#7E7E7E" FontFamily="Calibri" FontSize="12"/>
             </StackPanel>
-            <Button Grid.Column="3" Style="{StaticResource AddButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="21,20" Click="Button_Click"/>
+            <StackPanel Grid.Column="2" Orientation="Vertical">
+                <TextBlock x:Name="Duration" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="16" Margin="0,20,0,0" FontWeight="Bold"/>
+            </StackPanel>
+            <Button x:Name="Drop" Grid.Column="3" Style="{StaticResource DropButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="21,20" Click="Drop_Click"/>
+            <Button x:Name="Add" Grid.Column="4" Style="{StaticResource AddButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="21,20" Click="Add_Click"/>
         </Grid>
     </Border>
 </UserControl>

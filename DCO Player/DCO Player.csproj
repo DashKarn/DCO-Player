@@ -138,6 +138,15 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -288,6 +297,9 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="TagLibSharp, Version=2.2.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>..\packages\TagLibSharp.2.2.0\lib\net45\TagLibSharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -308,9 +320,6 @@
     </Compile>
     <Compile Include="Composition.xaml.cs">
       <DependentUpon>Composition.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CountryAlbums.xaml.cs">
-      <DependentUpon>CountryAlbums.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreatePlaylist.xaml.cs">
       <DependentUpon>CreatePlaylist.xaml</DependentUpon>
@@ -376,10 +385,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Composition.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CountryAlbums.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -479,7 +484,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -505,88 +509,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Photo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Flag\Albania.png" />
-    <Resource Include="Images\Flag\Armenia.png" />
-    <Resource Include="Images\Flag\Austria.png" />
-    <Resource Include="Images\Flag\Belarus.png" />
-    <Resource Include="Images\Flag\Belgium.png" />
-    <Resource Include="Images\Flag\Bosnia_and_Herzegovina.png" />
-    <Resource Include="Images\Flag\Bulgaria.png" />
-    <Resource Include="Images\Flag\Croatia.png" />
-    <Resource Include="Images\Flag\Czech_Republic.png" />
-    <Resource Include="Images\Flag\Denmark.png" />
-    <Resource Include="Images\Flag\Estonia.png" />
-    <Resource Include="Images\Flag\Finland.png" />
-    <Resource Include="Images\Flag\France.png" />
-    <Resource Include="Images\Flag\Germany.png" />
-    <Resource Include="Images\Flag\Greece.png" />
-    <Resource Include="Images\Flag\Hungary.png" />
-    <Resource Include="Images\Flag\Iceland.png" />
-    <Resource Include="Images\Flag\Ireland.png" />
-    <Resource Include="Images\Flag\Italy.png" />
-    <Resource Include="Images\Flag\Kazakhstan.png" />
-    <Resource Include="Images\Flag\Latvia.png" />
-    <Resource Include="Images\Flag\Lithuania.png" />
-    <Resource Include="Images\Flag\Moldova.png" />
-    <Resource Include="Images\Flag\Netherlands.png" />
-    <Resource Include="Images\Flag\North_Macedonia.png" />
-    <Resource Include="Images\Flag\Norway.png" />
-    <Resource Include="Images\Flag\Poland.png" />
-    <Resource Include="Images\Flag\Portugal.png" />
-    <Resource Include="Images\Flag\Romania.png" />
-    <Resource Include="Images\Flag\Serbia.png" />
-    <Resource Include="Images\Flag\Slovakia.png" />
-    <Resource Include="Images\Flag\Slovenia.png" />
-    <Resource Include="Images\Flag\Spain.png" />
-    <Resource Include="Images\Flag\Sweden.png" />
-    <Resource Include="Images\Flag\Switzerland.png" />
-    <Resource Include="Images\Flag\Ukraine.png" />
-    <Resource Include="Images\Flag\UK.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Flag\Russia.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Icon\Albania.png" />
-    <Resource Include="Images\Icon\Armenia.png" />
-    <Resource Include="Images\Icon\Austria.png" />
-    <Resource Include="Images\Icon\Belarus.png" />
-    <Resource Include="Images\Icon\Belgium.png" />
-    <Resource Include="Images\Icon\Bosnia_and_Herzegovina.png" />
-    <Resource Include="Images\Icon\Bulgaria.png" />
-    <Resource Include="Images\Icon\Croatia.png" />
-    <Resource Include="Images\Icon\Czech_Republic.png" />
-    <Resource Include="Images\Icon\Denmark.png" />
-    <Resource Include="Images\Icon\Estonia.png" />
-    <Resource Include="Images\Icon\Finland.png" />
-    <Resource Include="Images\Icon\France.png" />
-    <Resource Include="Images\Icon\Germany.png" />
-    <Resource Include="Images\Icon\Greece.png" />
-    <Resource Include="Images\Icon\Hungary.png" />
-    <Resource Include="Images\Icon\Iceland.png" />
-    <Resource Include="Images\Icon\Ireland.png" />
-    <Resource Include="Images\Icon\Italy.png" />
-    <Resource Include="Images\Icon\Kazakhstan.png" />
-    <Resource Include="Images\Icon\Latvia.png" />
-    <Resource Include="Images\Icon\Lithuania.png" />
-    <Resource Include="Images\Icon\Moldova.png" />
-    <Resource Include="Images\Icon\Netherlands.png" />
-    <Resource Include="Images\Icon\North_Macedonia.png" />
-    <Resource Include="Images\Icon\Norway.png" />
-    <Resource Include="Images\Icon\Poland.png" />
-    <Resource Include="Images\Icon\Portugal.png" />
-    <Resource Include="Images\Icon\Romania.png" />
-    <Resource Include="Images\Icon\Russia.png" />
-    <Resource Include="Images\Icon\Serbia.png" />
-    <Resource Include="Images\Icon\Slovakia.png" />
-    <Resource Include="Images\Icon\Slovenia.png" />
-    <Resource Include="Images\Icon\Spain.png" />
-    <Resource Include="Images\Icon\Sweden.png" />
-    <Resource Include="Images\Icon\Switzerland.png" />
-    <Resource Include="Images\Icon\Ukraine.png" />
-    <Resource Include="Images\Icon\United_Kingdom.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\playlist.png" />

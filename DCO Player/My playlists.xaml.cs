@@ -28,16 +28,16 @@ namespace DCO_Player
             InitializeComponent();
 
             bool get_db;
-            List<UserPlaylist> playlists = new List<UserPlaylist>();
+            List<UserPlaylist> playlists;
 
-            (get_db, playlists) = Database.GetPlaylists();
+            (get_db, playlists) = Database.GetPlaylists(false);
             if (playlists.Count == 0)
             {
                 playlists = Firebase.GetPlaylists();
                 if (playlists.Count > 0 && get_db)
                     Database.InsertPlaylists(playlists);
             }
-
+            Vars.allPlaylists = playlists.Select(p => new Tuple<Guid, string>(p.Id_playlist, p.name)).ToList();
             if (playlists.Count > 0)
             {
                 foreach (var playlist in playlists)
@@ -48,7 +48,7 @@ namespace DCO_Player
                     PlaylistControl playlistControl = new PlaylistControl(); // Создаем образ контрола с плейлистом
                     playlistControl.Margin = new Thickness(64, 35, 0, 29);
                     playlistControl.Instance = this;
-                    playlistControl.Id_playlist = playlist.Id_playlist;
+                    playlistControl.playlist_ = playlist;
                     playlistControl.PlaylistName.Content = playlist.name; // Передаем имя плейлиста в контрол
                     if (playlist.imageSrc != "")
                     {
@@ -75,12 +75,19 @@ namespace DCO_Player
             var ids_fb = playlists_fb.Select(f => f.Id_playlist).ToList();
             List<UserPlaylist> playlists_db = new List<UserPlaylist>();
             var ids_db = playlists_db.Select(f => f.Id_playlist).ToList();
+            List<Song> songs_db = new List<Song>();
+            List<Song> songs_fb = new List<Song>();
+
+            (get_db, songs_db) = Database.GetAllSongs();
+            if (!get_db)
+                return;
+            songs_fb = Firebase.GetSongs(null, true);
 
             playlists_fb = Firebase.GetPlaylists();
             if (playlists_fb.Count == 0)
                 return;
 
-            (get_db, playlists_db) = Database.GetPlaylists();
+            (get_db, playlists_db) = Database.GetPlaylists(deleted : true);
             if (!get_db)
                 return;
 

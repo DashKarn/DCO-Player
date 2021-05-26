@@ -27,14 +27,14 @@ namespace DCO_Player
     /// 
     public class RadioStation
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string name { get; set; }
         public string descr { get; set; }
         public string page { get; set; }
         public string stream { get; set; }
         public string imageSrc { get; set; }
     }
-    public class Compositions
+    public class RadioComposition
     {
         public string Time { get; set; }
         public string Artist { get; set; }
@@ -42,12 +42,12 @@ namespace DCO_Player
     }
     public partial class Radio : Page
     {
-        public List<Compositions> Composition(string page, RadioControl RC)
+        public List<RadioComposition> Composition(string page, RadioControl RC)
         {
             string str, time = "", artist = "", track = "";
             MatchCollection times;
             MatchCollection names;
-            List<Compositions> compositions = new List<Compositions>();
+            List<RadioComposition> compositions = new List<RadioComposition>();
 
             try
             {
@@ -55,10 +55,10 @@ namespace DCO_Player
                 web.Encoding = Encoding.UTF8;       // разметки страницы в формате
                 str = web.DownloadString(page);     // utf-8
 
-                Regex First = new Regex(@"<td>[\d]{2}:[\d]{2}<\/td>.{1,120}<\/span>");  // Регулярка для получения необработанных записей треков из html
+                Regex First = new Regex(@"name"">.{1,120}[\d]{2}:[\d]{2}<");  // Регулярка для получения необработанных записей треков из html
                 Regex Second = new Regex(@"[\d]{2}:[\d]{2}");                           // Регулярка для получения времени из списка необработанных записей
-                Regex Third = new Regex(@"(?<=out"">).{1,70}(?= - )");                      // Регулярка для получения имени исполнителя из списка необработанных записей
-                Regex Fourth = new Regex(@"(?<= - ).{1,70}(?=<\/span>)");                    // Регулярка для получения имени композиции из списка необработанных записей
+                Regex Third = new Regex(@"(?<=>).{1,70}(?= - )");                      // Регулярка для получения имени исполнителя из списка необработанных записей
+                Regex Fourth = new Regex(@"(?<= - )[^<]{1,30}");                    // Регулярка для получения имени композиции из списка необработанных записей
 
                 MatchCollection firstMatches = First.Matches(str);
                 foreach (Match match in firstMatches)
@@ -75,7 +75,7 @@ namespace DCO_Player
                     foreach (Match n in names)              // треков, путем получения элемента и дальнейшего
                         track = n.Value;                    // прогона через цикл и получения имени
 
-                    compositions.Add(new Compositions()
+                    compositions.Add(new RadioComposition()
                     {
                         Time = time,
                         Artist = artist,
@@ -89,7 +89,7 @@ namespace DCO_Player
             }
             catch
             {
-                MessageBox.Show("Отстутствует подключение к сети интернет");
+               // MessageBox.Show("Отстутствует подключение к сети интернет");
             }
             return compositions;
         }
@@ -117,7 +117,7 @@ namespace DCO_Player
                     RadioControl RC = new RadioControl();
 
 
-                    List<Compositions> compositions = Composition(station.page, RC);
+                    List<RadioComposition> compositions = Composition(station.page, RC);
                     RC.Margin = new Thickness(42, 31, 42, 0);
                     RC.ImageRadio.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + station.imageSrc, UriKind.Absolute));
                     RC.RadiostationName.Text = station.name;
@@ -126,10 +126,10 @@ namespace DCO_Player
                     RC.ImageRadio.MouseDown += RC_MouseDown;
 
                     WPR.Children.Add(RC);
-                    DispatcherTimer timer = new DispatcherTimer(); // Создание таймера обновлений композиций через полторы минуты
+                    DispatcherTimer timer = new DispatcherTimer(); // Создание таймера обновлений композиций через 30s
 
                     timer.Tick += Timer_Tick;
-                    timer.Interval = new TimeSpan(0, 1, 30);
+                    timer.Interval = new TimeSpan(0, 0, 10);
                     timer.Start();
 
                     void Timer_Tick(object sender, EventArgs e) // событие обновления таймера
@@ -145,7 +145,7 @@ namespace DCO_Player
                         radioIn.ImageRadio.Source = RC.ImageRadio.Source;           // Ресурс изображения
                         radioIn.RadiostationName.Text = RC.RadiostationName.Text;   // Название радиостанции
                         radioIn.RadiostationDescription.Text = station.descr;         // Описание
-                        foreach (Compositions comp in compositions)
+                        foreach (RadioComposition comp in compositions)
                         {
                             RadioPlaylistControl RPC = new RadioPlaylistControl();
 

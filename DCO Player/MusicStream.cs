@@ -23,11 +23,11 @@ namespace DCO_Player
 
         public static bool InitDefaultDevice;   // Переменная - инициализатор
 
+        public static int Stream;               // Аудиоканал
+
         public static bool NextPoint = false;   // Логическая переменная ручного переключения
 
         public static bool EndPoint = false;    // Логическая переменная ручного переключения
-
-        public static int Stream;               // Аудиоканал
 
         public static int Volume = 50;          // Громкость звука в процентном отношении
 
@@ -139,25 +139,10 @@ namespace DCO_Player
 
             if (ToNextTrack() || Next() || Back())
             {
-                string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                string sqlExpression = "SELECT Id_composition, Name, Artist FROM Songs WHERE Songs.Id_playlist = " + Vars.Id_playlist.ToString();
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sqlExpression, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        if (Vars.Tracklist[Vars.CurrentTrackNumber].Item1 == (Guid)reader.GetValue(0)) 
-                        {
-                            MainWindow.Instance.CompositionName.Text = reader.GetValue(1).ToString();
-                            MainWindow.Instance.ArtistName.Text = reader.GetValue(2).ToString();
-                            MainWindow.Instance.end.Content = FormatTimeSpan(TimeSpan.FromSeconds(MusicStream.GetTimeOfStream(MusicStream.Stream)));
-                        }
-                    }
-                }
+                var s = Vars.StreamTracklist[Vars.CurrentTrackNumber];
+                MainWindow.Instance.CompositionName.Text = s.song_.name;
+                MainWindow.Instance.ArtistName.Text = s.song_.artist;
+                MainWindow.Instance.end.Content = FormatTimeSpan(TimeSpan.FromSeconds(MusicStream.GetTimeOfStream(MusicStream.Stream)));
             }
 
             if (EndPlaylist)
@@ -328,17 +313,20 @@ namespace DCO_Player
         {
             if ((Bass.BASS_ChannelIsActive(Stream) == BASSActive.BASS_ACTIVE_STOPPED) && !isStopped)
             {
-                if (Vars.Tracklist.Count > Vars.CurrentTrackNumber + 1)
+                if (Vars.StreamTracklist.Count > Vars.CurrentTrackNumber + 1)
                 {
-                    PlayPlayer(Vars.Tracklist[++Vars.CurrentTrackNumber].Item2, Volume);
+                    Vars.CurrentTrackNumber++;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber].Stop.Visibility = Visibility.Visible;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber].Start.Visibility = Visibility.Collapsed;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber-1].Stop.Visibility = Visibility.Collapsed;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber-1].Start.Visibility = Visibility.Visible;
+                    PlayPlayer(Vars.StreamTracklist[Vars.CurrentTrackNumber].song_.path, Volume);
                     StreamLineStart();
                     EndPlaylist = false;
                     return true;
                 }
                 else
                     EndPlaylist = true;
-
-
             }
             return false;
         }   // Метод для описания автоматического переключения
@@ -348,16 +336,20 @@ namespace DCO_Player
             if (NextPoint)
             {
                 NextPoint = false;
-                if (Vars.Tracklist.Count > Vars.CurrentTrackNumber + 1)
+                if (Vars.StreamTracklist.Count > Vars.CurrentTrackNumber + 1)
                 {
-                    PlayPlayer(Vars.Tracklist[++Vars.CurrentTrackNumber].Item2, Volume);
+                    Vars.CurrentTrackNumber++;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber].Stop.Visibility = Visibility.Visible;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber].Start.Visibility = Visibility.Collapsed;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber-1].Stop.Visibility = Visibility.Collapsed;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber-1].Start.Visibility = Visibility.Visible;
+                    PlayPlayer(Vars.StreamTracklist[Vars.CurrentTrackNumber].song_.path, Volume);
                     StreamLineStart();
 
                     return true;
                 }
                 else
                     EndPlaylist = true;
-
             }
             return false;
         }   // Метод для описания пренудительного переключения вперед
@@ -369,7 +361,12 @@ namespace DCO_Player
                 EndPoint = false;
                 if (Vars.CurrentTrackNumber > 0)
                 {
-                    PlayPlayer(Vars.Tracklist[--Vars.CurrentTrackNumber].Item2, Volume);
+                    Vars.CurrentTrackNumber--;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber].Stop.Visibility = Visibility.Visible;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber].Start.Visibility = Visibility.Collapsed;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber+1].Stop.Visibility = Visibility.Collapsed;
+                    Vars.StreamTracklist[Vars.CurrentTrackNumber+1].Start.Visibility = Visibility.Visible;
+                    PlayPlayer(Vars.StreamTracklist[Vars.CurrentTrackNumber].song_.path, Volume);
                     Play();
                     StreamLineStart();
                     return true;

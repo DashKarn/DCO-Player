@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DCO_Player
 {
@@ -24,7 +13,7 @@ namespace DCO_Player
     {
         public My_playlists Instance { get; set; }
 
-        public Guid Id_playlist { get; set; }
+        public UserPlaylist playlist_ { get; set; }
 
         public PlaylistControl()
         {
@@ -35,28 +24,36 @@ namespace DCO_Player
         {
             bool get_db;
             List<Song> songs = new List<Song>();
-            (get_db, songs) = Database.GetSongs(Id_playlist);
+            (get_db, songs) = Database.GetSongsFromPlaylist(playlist_.Id_playlist);
             if (!get_db)
                 return;
 
             Playlist playlist = new Playlist(); // Получаем новую страницу с плейлистом
-
-            Vars.files.Clear();
-            Vars.id_playlist = Id_playlist;
-
+            playlist.PlaylistName.Content = playlist_.name;
+            Vars.playlist = playlist_;
+            Vars.current.Clear();
             foreach (var song in songs)
             {
-                Composition composition = new Composition(); // Создаем образ контрола с альбомом
+                Composition composition = new Composition(); // Создаем образ контрола 
                 composition.Margin = new Thickness(0, 15, 0, 0);
 
-                composition.Id_composition = song.Id_song;
+                composition.song_ = song;
                 composition.CompositionName.Text = song.name;
                 composition.ArtistName.Text = song.artist;
+                composition.Duration.Text = TimeSpan.FromSeconds(song.length).ToString(@"mm\:ss");
                 playlist.PlaylistName = PlaylistName;
-                Vars.files.Add(Tuple.Create(song.Id_song, song.path)); // Записываем пути для воспроизведения композиций текущего альбома
                 playlist.WPP.Children.Add(composition); // Добавляем контрол на страницу  
+                Vars.current.Add(composition);
             }
+            Vars.playlist.songs = new List<Song>(songs);
             Instance.NavigationService.Navigate(playlist);
-        }        
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            if (Database.DeletePlaylist(playlist_))
+                if (Firebase.DeletePlaylist(playlist_.Id_playlist))
+                    Database.DeletePlaylist(playlist_, false);
+        }
     }
 }

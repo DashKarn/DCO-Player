@@ -34,8 +34,8 @@
                 <TextBox x:Name="NamePlaylist" Style="{StaticResource Playlist}"  MaxLength="45" CaretBrush="#AFAFAF" Foreground="#AFAFAF" FontFamily="Calibri" FontSize="16" FontWeight="Bold" Margin="0,232,0,92" Width="200" Height="40"/>
                 <StackPanel Orientation="Horizontal" Margin="192,323,0,0">
                     <Border Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="3" Background="#FFE39B00" Width="80" Height="26">
-                        <Button Name="Add"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#F0F0F0" FontFamily="Calibri" FontSize="16" FontWeight="Bold" Click="Add_Click">
-                            Add
+                        <Button Name="Folder"  Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#F0F0F0" FontFamily="Calibri" FontSize="16" FontWeight="Bold" Click="Add_Click">
+                            Folder
                         </Button>
                     </Border>
 
